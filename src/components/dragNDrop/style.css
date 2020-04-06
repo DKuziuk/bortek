@@ -1,0 +1,21 @@
+.drag-zone {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 330px;
+    border-radius: 7px;
+    overflow: hidden;
+    background-color: #f3e8e8;
+}
+.drag-zone>div:last-child {
+    margin: 3px 0;
+    display: flex;
+    justify-content: center;
+}
+.fileList {
+    height: 100%;
+    width: 325px;
+    margin: 0 5px;
+    overflow: auto;
+    padding-left: 20px;
+}
