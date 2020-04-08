@@ -21,6 +21,7 @@ export default class OrderCreator extends React.Component {
     commentaryHTML = React.createRef();
 
     handleFile = e => {
+        console.log(e);
         let fileList = this.state.files;
         if (!e.target.files[0].name) return
         fileList.push(e.target.files[0])
@@ -43,6 +44,9 @@ export default class OrderCreator extends React.Component {
     checkCorrectness = (files, amount) => {
         let correctness = true;
         if (files.length === 0) correctness = false;
+        files.forEach(file => {
+            if (file.name.substr(file.name.length-4, 4).toLowerCase() !== '.dxf') correctness = false;
+        });
         if (amount <= 0) correctness = false;
         return correctness;
     }
@@ -57,7 +61,7 @@ export default class OrderCreator extends React.Component {
         const commentary = this.commentaryHTML.current.value;
         if (this.checkCorrectness(files, amount)) {
             this.props.submit(files, material, thickness, amount, priority, commentary);
-            this.setState({files: []});
+            this.clearZone();
         } else {
             alert ("Пожалуйста, проверьте правильность введённых данных.");
         }

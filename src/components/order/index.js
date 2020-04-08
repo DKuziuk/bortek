@@ -26,17 +26,44 @@ export default class Order extends React.Component {
         sort: 'asc',  // 'desc'
         sortField: 'id', // поле по умолчанию
     };
-    dxfToSvg = file => {
-        console.log(`Файл ${file} получен.`);
-        return (
-        <svg style={{width: '100%', height: '100%'}}>
-            <g>
-                <rect xmlns="http://www.w3.org/2000/svg" stroke="#000" id="svg_3" height="100%" width="100%" y="0" x="0" fillOpacity="null" strokeOpacity="null" strokeWidth="1" fill="#fff"/>
-                <ellipse xmlns="http://www.w3.org/2000/svg" stroke="#ff0000" ry="50" rx="50" id="svg_1" cy="50%" cx="50%" strokeWidth="1" fill="#ff0000"/>
-            </g>
-        </svg>
-        );
+    dxfToSvg = (file, id,  callback) => {
+        window.requirejs(['./dxf'], dxf => {
+            let reader = new FileReader();
+            reader.onload = e => {
+                if (e.target.readyState === 2) {
+                    let dxfContents = e.target.result;
+                    let helper = new dxf.Helper(dxfContents);
+                    const svg = helper.toSVG();
+                    callback(null, id, svg)
+                } else return callback(new Error("шось пошло не так"), id, null);
+            };
+            reader.readAsBinaryString(file);
+        });
     }
+    saveSVG = (err, id, data) => {
+        if (err !== null) {
+            alert('error');
+            return;
+        } else {
+            let modifiedOrders = this.state.orders.map(order => {
+                if (order.id === id) {
+                    order = {
+                        id: order.id,
+                        file: order.file,
+                        material: order.material,
+                        thickness: order.thickness,
+                        amount: order.amount,
+                        priority: order.priority,
+                        commentary: order.commentary,
+                        svg: data
+                    }
+                };
+                return order;
+            });
+            this.setState({orders: modifiedOrders});
+            return;
+        }
+    } 
     addOrder = (files, material, thickness, amount, priority, commentary) => {
         let orderList = this.state.orders;
         for (let i=0; i<files.length; i++) {
@@ -48,9 +75,10 @@ export default class Order extends React.Component {
                 amount,
                 priority,
                 commentary,
-                svg: this.dxfToSvg(files[i])
+                svg: 'Макет'
             }
             orderList.push(newOrder);
+            this.dxfToSvg(newOrder.file, newOrder.id, this.saveSVG)
         }
         this.setState({orders: orderList});
     }
@@ -92,6 +120,8 @@ export default class Order extends React.Component {
     deleteOrder = e => {
         let { id } = e.target;
         let { orders } = this.state;
+        console.log(`До видалення:`);
+        console.log(orders);
         let deletedOrder = orders.find(order => order.id === +id);
         let deletedId = orders.findIndex(order => order === deletedOrder);
         orders.splice(deletedId, 1);
@@ -100,6 +130,8 @@ export default class Order extends React.Component {
                 orders[i].id--
             }
         }
+        console.log(`Після видалення:`);
+        console.log(orders);
         this.setState({orders});
         this.setState({changingRow: -1});
         this.setState({changing: false});
@@ -129,6 +161,9 @@ export default class Order extends React.Component {
                 ]
             })
         }
+        this.setState({changingRow: -1});
+        this.setState({changing: false});
+        this.setState({styleOfOrderCreator: {}});
     }
 
     onSort = sortField => {
