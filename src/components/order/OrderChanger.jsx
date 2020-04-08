@@ -26,7 +26,7 @@ export default class OrderChanger extends React.Component {
         return(
             <form action="">
                     <div className="leftSide">
-                        <div style={{width: '100%', height: '100%', overflow: 'auto'}} dangerouslySetInnerHTML={{__html: svg}} />
+                        <div className="svg-view" dangerouslySetInnerHTML={{__html: svg}} />
                         <span>№ {id}</span>
                         <span>{file.name}</span>
                     </div>

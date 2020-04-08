@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { TranslatableText } from "../langChanger/index.jsx";
 import EditIcon from "../images/EditIcon.svg";
 import DeleteIcon from "../images/DeleteIcon.svg";
+import ArrowDn from "../images/ArrowDn.svg";
+import ArrowUp from "../images/ArrowUp.svg";
 import './style.css';
 
 export default class OrderList extends React.Component {
@@ -26,7 +28,7 @@ export default class OrderList extends React.Component {
     }
 
     render() {
-        const {orders, changeRow,  deleteOrder, submitAllOrders, changingRow} = this.props;
+        const {orders, changeRow,  deleteOrder, submitAllOrders, changingRow, sort, sortField, onSort} = this.props;
         let valueToString = value => {
             switch(value) {
                 case '08Х18Н10':
@@ -60,13 +62,13 @@ export default class OrderList extends React.Component {
             <table>
                 <thead>
                     <tr>
-                        <th style={{width: '3%'}} onClick={this.props.onSort.bind(null, 'id')}>№{this.props.sortField === 'id' ? <small>{this.props.sort}</small> : null}</th>
-                        <th style={{width: '23%'}} onClick={this.props.onSort.bind(null, 'file.name')}><TranslatableText dictionary={{ua: "Назва файла", ru: "Название файла", gb: "File name"}}/>{this.props.sortField === 'file.name' ? <small>{this.props.sort}</small> : null}</th>
-                        <th style={{width: '10%'}} onClick={this.props.onSort.bind(null, 'material')}><TranslatableText dictionary={{ua: "Матеріал", ru: "Материал", gb: "Material"}}/>{this.props.sortField === 'material' ? <small>{this.props.sort}</small> : null}</th>
-                        <th style={{width: '9%'}} onClick={this.props.onSort.bind(null, 'thickness')}><TranslatableText dictionary={{ua: "Товщина, мм", ru: "Толщина, мм", gb: "Thickness, mm"}}/>{this.props.sortField === 'thickness' ? <small>{this.props.sort}</small> : null}</th>
-                        <th style={{width: '4%'}} onClick={this.props.onSort.bind(null, 'amount')}><TranslatableText dictionary={{ua: "К-ть, шт.", ru: "К-во, шт.", gb: "Amount, pcs."}}/>{this.props.sortField === 'amount' ? <small>{this.props.sort}</small> : null}</th>
-                        <th style={{width: '8%'}} onClick={this.props.onSort.bind(null, 'priority')}><TranslatableText dictionary={{ua: "Пріорітет", ru: "Приоритет", gb: "Priority"}}/>{this.props.sortField === 'priority' ? <small>{this.props.sort}</small> : null}</th>
-                        <th style={{width: '10%'}} onClick={this.props.onSort.bind(null, 'commentary')}><TranslatableText dictionary={{ua: "Коментар", ru: "Комментарий", gb: "Commentary"}}/>{this.props.sortField === 'commentary' ? <small>{this.props.sort}</small> : null}</th>
+                        <th style={{width: '3%'}} onClick={onSort.bind(null, 'id')}>№{sortField === 'id' ? sort === 'asc' ? <img src={ArrowUp} alt="Sorted"/> : <img src={ArrowDn} alt="Sorted"/> : null}</th>
+                        <th style={{width: '23%'}} onClick={onSort.bind(null, 'file.name')}><TranslatableText dictionary={{ua: "Назва файла", ru: "Название файла", gb: "File name"}}/>{sortField === 'file.name' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
+                        <th style={{width: '10%'}} onClick={onSort.bind(null, 'material')}><TranslatableText dictionary={{ua: "Матеріал", ru: "Материал", gb: "Material"}}/>{sortField === 'material' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
+                        <th style={{width: '9%'}} onClick={onSort.bind(null, 'thickness')}><TranslatableText dictionary={{ua: "Товщина, мм", ru: "Толщина, мм", gb: "Thickness, mm"}}/>{sortField === 'thickness' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
+                        <th style={{width: '4%'}} onClick={onSort.bind(null, 'amount')}><TranslatableText dictionary={{ua: "К-ть, шт.", ru: "К-во, шт.", gb: "Amount, pcs."}}/>{sortField === 'amount' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
+                        <th style={{width: '8%'}} onClick={onSort.bind(null, 'priority')}><TranslatableText dictionary={{ua: "Пріорітет", ru: "Приоритет", gb: "Priority"}}/>{sortField === 'priority' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
+                        <th style={{width: '10%'}} onClick={onSort.bind(null, 'commentary')}><TranslatableText dictionary={{ua: "Коментар", ru: "Комментарий", gb: "Commentary"}}/>{sortField === 'commentary' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
                         <th style={{width: '9%'}}><TranslatableText dictionary={{ua: "Інструменти", ru: "Инструменты", gb: "Tools"}}/></th>
                     </tr>
                 </thead>

@@ -58,6 +58,9 @@ td, th {
     border: 1px solid black;
     text-align: center;
 }
+th>img {
+    width: 16px;
+}
 .tools-btn {
     width: 35px;
     height: 35px;
@@ -68,4 +71,10 @@ td, th {
 }
 .rowSelected {
     background-color: #4cbad8;
+}
+.svg-view {
+    height: 75%;
+    background-color: white;
+    border-radius: 7px;
+    padding: 3px;
 }

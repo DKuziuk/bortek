@@ -1,0 +1,17 @@
+<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path transform="rotate(180 15.990860939025877,16.055442810058594) " id="Arrow_Drop_Down" fill-rule="evenodd" fill="#121313" d="m27,11.106c0,-0.564 -0.489,-1.01 -1.044,-0.995l-19.943,0c-0.887,-0.024 -1.38,1.07 -0.742,1.702l9.999,9.9c0.394,0.39 1.031,0.376 1.429,0l9.991,-9.892c0.189,-0.181 0.31,-0.433 0.31,-0.715zm-11.016,8.485l-7.566,-7.491l15.132,0l-7.566,7.491z" clip-rule="evenodd"/>
+  <g id="svg_1"/>
+  <g id="svg_2"/>
+  <g id="svg_3"/>
+  <g id="svg_4"/>
+  <g id="svg_5"/>
+  <g id="svg_6"/>
+ </g>
+</svg>
