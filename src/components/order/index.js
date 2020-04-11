@@ -2,6 +2,7 @@ import React from 'react';
 import OrderChanger from './OrderChanger';
 import OrderCreator from './OrderCreator';
 import OrderList from './OrdersList';
+import { TotalLength } from './totalLength';
 import _ from 'lodash'; // Сортировка, источник: https://abcinblog.blogspot.com/2019/02/react-i.html
 import "./style.css";
 
@@ -33,6 +34,7 @@ export default class Order extends React.Component {
                 if (e.target.readyState === 2) {
                     let dxfContents = e.target.result;
                     let helper = new dxf.Helper(dxfContents);
+                    console.log(`Общая длинна: ${TotalLength(helper).toFixed(2)} мм.`);
                     const svg = helper.toSVG();
                     callback(null, id, svg)
                 } else return callback(new Error("шось пошло не так"), id, null);
@@ -120,8 +122,6 @@ export default class Order extends React.Component {
     deleteOrder = e => {
         let { id } = e.target;
         let { orders } = this.state;
-        console.log(`До видалення:`);
-        console.log(orders);
         let deletedOrder = orders.find(order => order.id === +id);
         let deletedId = orders.findIndex(order => order === deletedOrder);
         orders.splice(deletedId, 1);
@@ -130,8 +130,6 @@ export default class Order extends React.Component {
                 orders[i].id--
             }
         }
-        console.log(`Після видалення:`);
-        console.log(orders);
         this.setState({orders});
         this.setState({changingRow: -1});
         this.setState({changing: false});
@@ -165,7 +163,6 @@ export default class Order extends React.Component {
         this.setState({changing: false});
         this.setState({styleOfOrderCreator: {}});
     }
-
     onSort = sortField => {
         const cloneData = this.state.orders.concat();
         cloneData.splice(0, 1);
@@ -187,6 +184,11 @@ export default class Order extends React.Component {
             sortField
         })
     }
+
+    // componentDidMount() {
+    //     let g = document.getElementsByTagName('g');
+    //     console.log(g); // you should have an array with list items inside an specific unordered list
+    // }
 
     render() {
         return (
