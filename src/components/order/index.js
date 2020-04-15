@@ -131,9 +131,14 @@ export default class Order extends React.Component {
             }
         }
         this.setState({orders});
-        this.setState({changingRow: -1});
-        this.setState({changing: false});
-        this.setState({styleOfOrderCreator: {}});
+        if (deletedOrder === this.state.changeOrder){
+            this.setState({changingRow: -1});
+            this.setState({changing: false});
+            this.setState({styleOfOrderCreator: {}});
+        } else if (deletedId < this.state.changingRow) {
+            let { changingRow } = this.state;
+            this.setState({changingRow: --changingRow});
+        }
     }
     submitAllOrders = (e) => {
         e.preventDefault();
@@ -193,7 +198,7 @@ export default class Order extends React.Component {
     render() {
         return (
             <div className="order">
-                {this.state.changing && <OrderChanger 
+                {this.state.changing && <OrderChanger
                 changeOrder={this.state.changeOrder} 
                 cancelChangedOrder={this.cancelChangedOrder} 
                 saveChangedOrder={this.saveChangedOrder} 

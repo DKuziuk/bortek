@@ -3,42 +3,83 @@ import { TranslatableText } from "../langChanger/index.jsx";
 import "./style.css";
 
 export default class OrderChanger extends React.Component {
-    materialHTML = React.createRef();
-    thicknessHTML = React.createRef();
-    amountHTML = React.createRef();
-    priorityHTML = React.createRef();
-    commentaryHTML = React.createRef();
-
+    state = {
+        material: this.props.changeOrder.material,
+        thickness: this.props.changeOrder.thickness,
+        amount: this.props.changeOrder.amount,
+        priority: this.props.changeOrder.priority,
+        commentary: this.props.changeOrder.commentary
+    }
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (typeof nextProps.changeOrder != 'undefined') {
+            this.setState({
+                material: nextProps.changeOrder.material,
+                thickness: nextProps.changeOrder.thickness,
+                amount: nextProps.changeOrder.amount,
+                priority: nextProps.changeOrder.priority,
+                commentary: nextProps.changeOrder.commentary
+            });
+        }
+    }
+    dropRef = React.createRef()
+    handleDrag = (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    handleDrop = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        alert("Для добавления файлов к списку Вы должны завершить или отменить изменение заказа!")
+        if (e.dataTransfer.files) {
+          e.dataTransfer.clearData()
+        }
+      }
+    componentDidMount() {
+        let div = this.dropRef.current
+        div.addEventListener('dragover', this.handleDrag)
+        div.addEventListener('drop', this.handleDrop)
+    }
+    componentWillUnmount() {
+        let div = this.dropRef.current
+        div.removeEventListener('dragover', this.handleDrag)
+        div.removeEventListener('drop', this.handleDrop)
+    }
     handleSave = event => {
         event.preventDefault();
         const { id, file } = this.props.changeOrder;
-        const material = this.materialHTML.current.value;
-        const thickness = this.thicknessHTML.current.value;
-        const amount = this.amountHTML.current.value;
-        const priority = this.priorityHTML.current.value;
-        const commentary = this.commentaryHTML.current.value;
+        const material = this.state.material;
+        const thickness = this.state.thickness;
+        const amount = this.state.amount;
+        const priority = this.state.priority;
+        const commentary = this.state.commentary;
         this.props.saveChangedOrder(id, file, material, thickness, amount, priority, commentary);
     }
     render() {
-        const { id, file, material, thickness, amount, priority, commentary, svg } = this.props.changeOrder;
+        const { id, file, svg } = this.props.changeOrder;
         const { cancelChangedOrder } = this.props;
 
         return(
-            <form action="">
-                    <div className="leftSide">
+            <form>
+                    <div className="leftSide" ref={this.dropRef}>
                         <div className="svg-view" dangerouslySetInnerHTML={{__html: svg}} />
                         <span>№ {id}</span>
                         <span>{file.name}</span>
                     </div>
                     <div className="order-options">
                         <span><TranslatableText dictionary={{ua: "Матеріал", ru: "Материал", gb: "Material"}}/></span>
-                        <select ref={this.materialHTML} defaultValue={material}>
+                        <select
+                        onChange={e => this.setState({ material : e.target.value })}
+                        value={this.state.material}
+                        >
                             <option value="blackST">Ст3</option>
                             <option value="08Х18Н10">304S(08Х18Н10)</option>
                             <option value="20Х23Н18">310S(20Х23Н18)</option>
                         </select>
                         <span><TranslatableText dictionary={{ua: "Товщина, мм", ru: "Толщина, мм", gb: "Thickness, mm"}}/></span>
-                        <select ref={this.thicknessHTML} defaultValue={thickness}>
+                        <select
+                        onChange={e => this.setState({ thickness : e.target.value })}
+                        value={this.state.thickness}
+                        >
                             <option value="mm-08">0,8</option>
                             <option value="mm-15">1,5</option>
                             <option value="mm-30">3,0</option>
@@ -47,10 +88,18 @@ export default class OrderChanger extends React.Component {
                         </select>
                         <div className="amount">
                             <span><TranslatableText dictionary={{ua: "Кількість, шт.", ru: "Количество, шт.", gb: "Amount, pcs."}}/></span>
-                            <input ref={this.amountHTML} type="number" min={1} defaultValue={amount}/>
+                            <input
+                            type="number"
+                            min={1}
+                            onChange={e => this.setState({ amount : e.target.value })}
+                            value={this.state.amount}
+                            />
                         </div>
                         <span><TranslatableText dictionary={{ua: "Пріорітет", ru: "Приоритет", gb: "Priority"}}/></span>
-                        <select ref={this.priorityHTML} defaultValue={priority}>
+                        <select
+                        onChange={e => this.setState({ priority : e.target.value })}
+                        value={this.state.priority}
+                        >
                             <option value="lowPriority">Низкий</option>
                             <option value="mediumPriority">Средний</option>
                             <option value="highPriority">Высокий</option>
@@ -58,7 +107,10 @@ export default class OrderChanger extends React.Component {
                     </div>
                     <div className="commentary-zone">
                         <span><TranslatableText dictionary={{ua: "Коментар", ru: "Комментарий", gb: "Commentary"}}/></span>
-                        <textarea ref={this.commentaryHTML} defaultValue={commentary}></textarea>
+                        <textarea
+                        onChange={e => this.setState({ commentary : e.target.value })}
+                        value={this.state.commentary}
+                        />
                         <div>
                             <button type="button" onClick={cancelChangedOrder}><TranslatableText dictionary={{ua: "Відмінити", ru: "Отменить", gb: "Cancel"}}/></button>
                             <button type="button" onClick={this.handleSave}><TranslatableText dictionary={{ua: "Зберегти", ru: "Сохранить", gb: "Save"}}/></button>

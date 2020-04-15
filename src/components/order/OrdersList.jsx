@@ -81,7 +81,7 @@ export default class OrderList extends React.Component {
                                     <th>
                                         {id}
                                     </th>
-                                    <td>
+                                    <td id={id} onClick={e => changeRow(e)}>
                                         {file.name}
                                     </td>
                                     <td>
