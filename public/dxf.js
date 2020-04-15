@@ -2623,18 +2623,23 @@ var _default = function _default(parsed) {
       bbox = _entities$reduce.bbox,
       elements = _entities$reduce.elements;
 
+  var xOffset = Math.abs(bbox.min.x - bbox.min.x*1.05), yOffset = Math.abs(bbox.max.y - bbox.max.y*1.05);
   var viewBox = bbox.valid ? {
-    x: bbox.min.x,
-    y: -bbox.max.y,
-    width: bbox.max.x - bbox.min.x,
-    height: bbox.max.y - bbox.min.y
+    // x: bbox.min.x,
+    // y: -bbox.max.y,
+    // width: bbox.max.x - bbox.min.x,
+    // height: bbox.max.y - bbox.min.y
+    x: bbox.min.x*1.05,
+    y: -bbox.max.y - yOffset,
+    width: (bbox.max.x - bbox.min.x) + xOffset*2,
+    height: (bbox.max.y - bbox.min.y) + yOffset*2
   } : {
     x: 0,
     y: 0,
     width: 0,
     height: 0
   };
-  return "<?xml version=\"1.0\"?>\n<svg\n  xmlns=\"http://www.w3.org/2000/svg\"\n  xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\"\n  preserveAspectRatio=\"xMinYMin meet\"\n  viewBox=\"".concat(viewBox.x, " ").concat(viewBox.y, " ").concat(viewBox.width, " ").concat(viewBox.height, "\"\n  width=\"100%\" height=\"100%\"\n>\n  <g stroke=\"#000000\" stroke-width=\"0.1%\" fill=\"none\" transform=\"matrix(1,0,0,-1,0,0)\">\n    ").concat(_prettyData.pd.xml(elements.join('\n')), "\n  </g>\n</svg>");
+  return "<?xml version=\"1.0\"?>\n<svg\n id=\"svgView\" xmlns=\"http://www.w3.org/2000/svg\"\n  xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\"\n  preserveAspectRatio=\"xMidYMid meet\"\n  viewBox=\"".concat(viewBox.x, " ").concat(viewBox.y, " ").concat(viewBox.width, " ").concat(viewBox.height, "\"\n  width=\"100%\" height=\"100%\"\n>\n  <g stroke=\"#000000\" stroke-width=\"0.5%\" fill=\"none\" transform=\"matrix(1,0,0,-1,0,0)\">\n    ").concat(_prettyData.pd.xml(elements.join('\n')), "\n  </g>\n</svg>");
 };
 
 exports["default"] = _default;
