@@ -1,11 +1,13 @@
 import { TranslatableText } from "../langChanger/index.jsx";
 import React from 'react';
+import ReCaptcha from "../reCaptcha/ReCaptcha";
 
 export default class Register extends React.Component {
 
     render() {
         return (
             <div className="base-container">
+                <ReCaptcha />
                 <div className="login-header"><TranslatableText dictionary={{ua: "Реєстрація", ru: "Регистрация", gb: "Register"}}/></div>
                 <div className="content">
                     <div className="form">
