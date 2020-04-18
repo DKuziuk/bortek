@@ -100,7 +100,7 @@ export default class OrderList extends React.Component {
                                         {valueToString(commentary)}
                                     </td>
                                     <td>
-                                        <button id={id} className="tools-btn" onClick={e => changeRow(e)}><img id={id} src={EditIcon} alt="Edit"/></button>
+                                        <button id={id} className="tools-btn" onClick={e => changeRow(e)}><img className="cog" id={id} src={EditIcon} alt="Edit"/></button>
                                         <button id={id} className="tools-btn" onClick={e => deleteOrder(e)}><img id={id} src={DeleteIcon} alt="Delete"/></button>
                                     </td>
                                 </tr>

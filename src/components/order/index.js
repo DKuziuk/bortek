@@ -28,8 +28,6 @@ export default class Order extends React.Component {
         sort: 'asc',  // 'desc'
         sortField: 'id', // поле по умолчанию,
     };
-    totL = 0;
-    totAr = 0;
     dxfToSvg = (file, id,  callback) => {
         window.requirejs(['./dxf'], dxf => {
             let reader = new FileReader();
@@ -37,13 +35,12 @@ export default class Order extends React.Component {
                 if (e.target.readyState === 2) {
                     let dxfContents = e.target.result;
                     let helper = new dxf.Helper(dxfContents);
-                    console.log(helper);
-                    // console.log(`Общая длинна: ${TotalLength(helper).toFixed(2)} мм.`);
-                    this.totL += +TotalLength(helper).toFixed(2);
-                    // console.log(`Общая длинна: ${this.totL} мм.`);
-                    // console.log(`Общая площадь: ${areaOfElem(helper).toFixed(2)} мм^2.`);
-                    this.totAr += +areaOfElem(helper).toFixed(2);
-                    // console.log(`Общая площадь: ${this.totAr} мм^2.`);
+                    // console.log(helper);
+                    let laserLength = TotalLength(helper);
+                    // console.log(`Длинна реза: ${TotalLength(helper).toFixed(2)} мм.`);
+                    console.log(`Длинна реза: ${laserLength.cut.toFixed(2)} мм.`);
+                    console.log(`Длинна гравировки: ${laserLength.engraving.toFixed(2)} мм.`);
+                    console.log(`Общая площадь: ${areaOfElem(helper).toFixed(2)} мм^2.`);
                     const svg = helper.toSVG();
                     callback(null, id, svg)
                 } else return callback(new Error("шось пошло не так"), id, null);
@@ -172,9 +169,6 @@ export default class Order extends React.Component {
                     }
                 ]
             });
-            console.log(`Total length: ${(this.totL).toFixed(2)} mm; total area: ${(this.totAr).toFixed(2)} мм^2.`);
-            this.totL =0;
-            this.totAr =0;
         }
         this.setState({changingRow: -1});
         this.setState({changing: false});

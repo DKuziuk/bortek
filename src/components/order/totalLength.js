@@ -33,11 +33,32 @@ function lengthOfElem (element) {
     }
 }
 
+function layerColorIsRed (elementLayer, layers) {
+    if (layers[elementLayer].colorNumber === 1) {
+        return true
+    } else return false
+}
+
 export function TotalLength(elements) {
     // Функция TotalLength считает суммарную длинну элементов чертежа
-    let length = 0;
+    let length = {
+        cut: 0,
+        engraving: 0
+    }
     elements.denormalised.forEach(element => {
-        length += +lengthOfElem(element);
+        if (element.colorNumber) {
+            if (element.colorNumber === 1) {
+                length.engraving += +lengthOfElem(element);
+            } else {
+                length.cut += +lengthOfElem(element);
+            }
+        } else {
+            if (layerColorIsRed(element.layer, elements.parsed.tables.layers)) {
+                length.engraving += +lengthOfElem(element);
+            } else {
+                length.cut += +lengthOfElem(element);
+            }
+        }
     });
     return length;
 }
