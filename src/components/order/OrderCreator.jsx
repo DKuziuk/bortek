@@ -70,7 +70,7 @@ export default class OrderCreator extends React.Component {
     render() {
         return(
             <form action="" onSubmit={this.handleSubmit}>
-                    <DragAndDrop handleDrop={this.handleDrop} ref={this.fileInputHTML}>
+                    <DragAndDrop handleDrop={this.handleDrop}>
                         <span style={{textAlign: "center"}}><TranslatableText dictionary={{ua: "Перетяніть файл(и) сюди:", ru: "Перетяните файл(ы) сюда:", gb: "Drop file(s) here:"}}/></span>
                         <ul className="fileList">
                         {this.state.files.map((file, i) =>
