@@ -16,9 +16,6 @@ var UserSchema= new Schema({
     required:true,
 
   } //password
-  ,verified:{
-    type:Boolean,
-    default:false} // email - реальный? проверяется отправкой письма и ответом на определенный  URL
   ,adresses: [DeliveryAdressSchema] // адреса доставки
   ,person: {
     name:String,
@@ -37,12 +34,24 @@ UserSchema.statics.findByEmail = function (email,cb) {
 };
 
 // async function findByEmail(email){
-// 
+//
 // }
 UserSchema.statics.addUser = function (user,cb) {
+  let logN="UserSchema.addUser:";
     // try add to base
     this.create(user,function(err,user){
-      if (err) return cb(err,null);
+      if (err) {
+        // ошибка базы
+        let error={
+             msg:{
+               "en":logN+err.errmsg
+              ,"ru":logN+err.errmsg
+              ,'ua':logN+err.errmsg
+            }} //error
+            cb(error,null);
+            return
+        }//  if (err)
+      //if (err) return cb(err,null);
       // пользователь успешно создан
       // в этом месте проводим верификаццию e-mail пользователя
       // возвращаем пользователя

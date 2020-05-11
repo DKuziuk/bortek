@@ -12,7 +12,7 @@ const signup = require('./passport/signup.js');
 const config = require('./config');
 //connect to mongodb
 const mongoose = require('mongoose');
-mongoose.connect(config.db.url, {useNewUrlParser: true, useUnifiedTopology:true})
+mongoose.connect(config.db.url,config.db.options )
                 .catch(error => {
                   console.log("MongoDB: %s",error.message);
                   process.exit(1);
@@ -42,7 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // initPassport(passport);
 // const myPassport = require('./passport/isAuth');
 // app.use(myPassport);
-app.use('/signup', signup); // регистрация
+
 app.use('/login', login); // верификация + выдача токена
 // app.use(function(req,res,next){
 //   console.log('------req.user-------');

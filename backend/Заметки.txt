@@ -1,2 +1,13 @@
 Запуск:
+DEBUG=express:* supervisor -n error ./bin/www            
+mongod  --dbpath "F:\Dropbox\Node_Proj\mongoDB\base" --auth     
+
+
+Email: 0499571216@ukr.net
+pwd: 6Xu0N679hWF8lnON 
+
+
+
+// ----- устарело ------
+
 DEBUG=express:* npm start

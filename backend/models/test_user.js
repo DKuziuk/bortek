@@ -12,7 +12,7 @@ if (! module.parent) {
   //  });
   async function start() {
     try {
-    await mongoose.connect(conf.url, {useNewUrlParser: true, useUnifiedTopology:true })
+    await mongoose.connect(conf.url, conf.options)
     } catch (error) {
       console.log("--------------------\n MongoDB connect  error ! \n--------------------");
       console.log(error.message);
