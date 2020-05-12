@@ -1,0 +1,16 @@
+<svg width="1440" height="814" viewBox="0 0 1440 814" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<path opacity="1" fill-rule="evenodd" clip-rule="evenodd" d="M1793 -1097.7H201.481C201.481 -1097.7 -287.333 -651.922 -48.7404 -110.019C189.853 431.884 557.949 -33.8362 796.258 516.776C1034.57 1067.39 1793 683.788 1793 683.788V-1097.7Z" fill="url(#img1)"/>
+<defs>
+  <pattern id="img1" patternUnits="userSpaceOnUse" width="100%" height="100%">
+    <image xlink:href="laser-cutting.jpg" x="0" y="0" height="100%" background-size="cover"/>
+  </pattern>
+</defs>
+
+<!-- <defs>
+<linearGradient id="paint0_linear" x1="-nan" y1="-nan" x2="-nan" y2="-nan" gradientUnits="userSpaceOnUse">
+<stop stop-color="#94D6E8"/>
+<stop offset="1" stop-color="#4CBAD8"/>
+</linearGradient>
+</defs> -->
+</svg>

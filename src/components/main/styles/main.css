@@ -1,60 +1,23 @@
-:root {
-  --green-color: #70d775;
+/* Полоса прокрутки страницы: */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #4cbad8; 
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #727272; 
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 
-.background-wave {
-  background: url("../../images/background-wave.svg") no-repeat center / 100% 100%;
-  padding-bottom: 80px;
-}
 
-.banner {
-  padding-top: 40px;
-}
-
-.header {
-  margin-bottom: 70px;
-}
-
-.link {
-  padding: 6px 12px;
-  color: #000;
-  text-decoration: none;
-  border-radius: 16px;
-  transition: color 0.3s ease, background-color 0.3s ease;
-}
-
-.link-large {
-  padding: 10px 30px;
-  border-radius: 36px;
-}
-
-.link-large:hover {
-  box-shadow: 0 0 10px 10px inset rgba(76, 186, 216, 0.5);
-}
-
-.link-active,
-.link:active,
-.link:focus,
-.link:hover {
-  color: #fff;
-  background-color: var(--green-color);
-  text-decoration: none;
-}
-
-.banner-content {
-  padding: 130px 0;
-  width: 60%;
-}
-
-.banner-bg {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  max-width: 365px;
-  width: 50%;
-}
-
+/* Текстовые параметры: */
 .title {
   margin-bottom: 24px;
   font-weight: 600;
@@ -62,11 +25,9 @@
   white-space: pre-line;
   line-height: 1.4;
 }
-
 p {
   white-space: pre-line;
 }
-
 .title-description {
   font-weight: 300;
   margin-bottom: 28px;
@@ -75,54 +36,8 @@ p {
   line-height: 2;
 }
 
-.block {
-  padding: 90px 50px;
-  border-radius: 4px;
-}
 
-.block-big {
-  border-radius: 4px;
-  padding: 65px 50px;
-}
-
-.block h2 {
-  text-transform: uppercase;
-  font-size: 24px;
-  line-height: 1.2;
-  color: #fff;
-}
-
-.block-big h3 {
-  margin-bottom: 45px;
-  font-size: 24px;
-  line-height: 1.2;
-  color: #fff;
-}
-
-.block-big p {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #fff;
-  margin-bottom: 65px;
-}
-
-.block-green {
-  background-color: #b4ecde;
-}
-
-.block-yellow {
-  background: url("../../images/yellow-wave.svg") #ffdf7f no-repeat left top / 100%
-    100%;
-}
-
-.block-blue {
-  background-color: #a0d8eb;
-}
-
-.block-pink {
-  background-color: #f7dfe7;
-}
-
+/* Кнопка заказа на главной странице: */
 .order-btn {
   display: inline-block;
   padding: .75rem 1.25rem;
@@ -136,7 +51,6 @@ p {
   overflow: hidden;
   z-index: 1;
 }
-
 .order-btn:after {
   content: '';
   position: absolute;
@@ -148,7 +62,6 @@ p {
   border-radius: 10rem;
   z-index: -2;
 }
-
 .order-btn:before {
   content: '';
   position: absolute;
@@ -157,15 +70,294 @@ p {
   width: 0%;
   height: 100%;
   background-color: #4cbad8;
-  transition: all .3s;
+  transition: all .5s;
   border-radius: 10rem;
   z-index: -1;
 }
-
 .order-btn:hover {
   color: #fff;
   text-decoration: none;
 }
 .order-btn:hover:before {
   width: 100%;
+}
+
+
+/* Первый блок */
+.white-wave {
+  height: 100vh;
+  padding: 20% 10%;
+  background: url("../../images/WhiteWave.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.white-wave>h1, .white-wave>p {
+  animation:anim1 3s;
+  animation-duration:3s;
+  position: relative;
+}
+.white-wave>a {
+  animation:anim2 3s;
+  animation-duration:3s;
+  animation-timing-function: ease-in;
+  position: relative;
+}
+@keyframes anim1 {
+  from {top:300px;}
+  to {top:0;}
+}
+@keyframes anim2 {
+  from {left:-100%;}
+  to {left:0;}
+}
+.banner-big {
+  /* background-image: url(../../images/testImg1.jfif); */
+  background-image: url(../../images/Earth.jpg);
+  background-size: cover;
+}
+
+
+/* Второй блок: */
+.steps {
+  height: 100vh;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.steps>div {
+  height: 230px;
+  width: 100%;
+}
+.up-row {
+  display: flex;
+  justify-content: space-around;
+}
+.step {
+  position: relative;
+  width: 32%;
+  max-width: 380px;
+  height: 100%;
+  border: 3px solid transparent;
+  border-radius: 20px;
+}
+.step::after {
+  content: " ";
+  position: absolute;
+  border: 10px solid;
+  top: 235px;
+  right: 5%;
+  border-color: black transparent transparent transparent;
+  transition: 0.7s;
+}
+.step:hover::after {
+  transform: scaleY(-1);
+  border-color: #4cbad8 transparent transparent transparent;
+}
+.step h3, .step h2 {
+  position: relative;
+  top: 15px;
+  padding: 0 7px;
+}
+.step-details {
+  position: absolute;
+  pointer-events: none;
+  top: 265px;
+  width: 100%;
+  height: 110%;
+  background: white;
+  border: 3px solid #4cbad8;
+  border-radius: 5px;
+  padding: 5px;
+  opacity: 0;
+  transition: opacity 0.7s;
+  white-space: pre-line;
+}
+.step:hover .step-details {
+  opacity: 1;
+}
+.down-row {
+  margin-top: 35px;
+  display: flex;
+  justify-content: space-around;
+}
+.down-row div {
+  width: 32%;
+  max-width: 380px;
+  height: 100%;
+  padding: 5px;
+}
+.first-step {
+  border: 10px solid transparent;
+  background: url("../../images/Step1BG.svg") no-repeat left / cover;
+}
+.second-step {
+  border: 10px solid transparent;
+  background: url(https://tarasmetall.com/uploads/Product/4.jpeg?1497006334)  no-repeat left / cover;
+}
+.third-step {
+  border: 10px solid transparent;
+  background: url("../../images/Step3BG.svg") no-repeat left / cover;
+}
+
+
+/* Третий блок: */
+.reasons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+  height: 100vh;
+  padding: 60px;
+  margin: 0 auto;
+}
+.reasons-container h1 {
+  width: 100%;
+  max-width: 1100px;
+  margin: 2% auto;
+  font-size: 2em;
+  padding-left: 10px;
+}
+.blocks-container {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+.blocks-container>div {
+  width: 49%;
+  min-height: 430px;
+  display: flex;
+  flex-direction: column;
+}
+.left-side-blocks, .right-side-blocks {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+.block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 50px;
+  border-radius: 7px;
+  height: 40%;
+}
+.block-big {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 7px;
+  padding: 35px 50px;
+  height: 55%;
+}
+.block h2 {
+  font-size: 24px;
+  line-height: 1.2;
+  color: #fff;
+}
+.block-big h3 {
+  margin-bottom: 45px;
+  font-size: 24px;
+  line-height: 1.2;
+  color: #fff;
+}
+.block-big p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #fff;
+  margin-bottom: 65px;
+}
+.block-green {
+  background-color: #b4ecde;
+}
+.block-yellow {
+  background: url("../../images/yellow-wave.svg") #ffdf7f no-repeat left top / 100%
+    100%;
+}
+.block-blue {
+  background: url("../../images/blue-wave.svg") #a0d8eb no-repeat left top / 100%
+    100%;
+}
+.block-pink {
+  background-color: #f7dfe7;
+}
+
+
+/* Четвёртый блок */
+.contact-us {
+  padding: 60px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url("../../images/bottom-wave.svg") no-repeat left bottom / 100% 100%;
+}
+.tel-e-mail {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+}
+.tel-e-mail button {
+  padding: 5px 10px;
+  background-color: #727272;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  transition: border-color 0.5s ease, color 0.5s ease;
+}
+.tel-e-mail button:hover {
+  color: #4cbad8;
+  border-color: #4cbad8;
+}
+.tel-e-mail button:focus {
+  outline: none;
+}
+.tel-e-mail button:active {
+  box-shadow: inset 0 0 10px 2px #333637;
+}
+
+
+/* Список номеров страниц справа: */
+.pagination-additional-class {
+  list-style: none;
+  position: fixed;
+  top: 0;
+  right: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.pagination-additional-class li {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background-color: #727272;
+  text-align: center;
+  transition: border-color 0.5s ease;
+}
+.pagination-additional-class li:hover {
+  border-color: #4cbad8;
+}
+.selectedPage {
+  border-color: #4cbad8 !important;
+}
+.pagination-additional-class li:active {
+  box-shadow: inset 0 0 10px 2px #333637;
+}
+.pagination-additional-class a {
+  color: black;
+  padding: 8px;
+  transition: all 0.5s ease;
+}
+.pagination-additional-class li:hover a {
+  color: #4cbad8;
+}
+.pagination-additional-class a:hover {
+  text-decoration: none;
+}
+.pagination-additional-class > li:not(:last-of-type) {
+  margin-bottom: 50px;
 }

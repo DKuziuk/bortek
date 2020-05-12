@@ -59,14 +59,14 @@ export default class OrderList extends React.Component {
         }
 
         return (
-            <table>
+            <table className="orderList">
                 <thead>
                     <tr>
                         <th style={{width: '3%'}} onClick={onSort.bind(null, 'id')}>№{sortField === 'id' ? sort === 'asc' ? <img src={ArrowUp} alt="Sorted"/> : <img src={ArrowDn} alt="Sorted"/> : null}</th>
-                        <th style={{width: '23%'}} onClick={onSort.bind(null, 'file.name')}><TranslatableText dictionary={{ua: "Назва файла", ru: "Название файла", gb: "File name"}}/>{sortField === 'file.name' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
+                        <th style={{width: '23%'}} onClick={onSort.bind(null, 'file.name')}><TranslatableText dictionary={{ua: "Назва файлу", ru: "Название файла", gb: "File name"}}/>{sortField === 'file.name' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
                         <th style={{width: '10%'}} onClick={onSort.bind(null, 'material')}><TranslatableText dictionary={{ua: "Матеріал", ru: "Материал", gb: "Material"}}/>{sortField === 'material' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
                         <th style={{width: '9%'}} onClick={onSort.bind(null, 'thickness')}><TranslatableText dictionary={{ua: "Товщина, мм", ru: "Толщина, мм", gb: "Thickness, mm"}}/>{sortField === 'thickness' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
-                        <th style={{width: '4%'}} onClick={onSort.bind(null, 'amount')}><TranslatableText dictionary={{ua: "К-ть, шт.", ru: "К-во, шт.", gb: "Amount, pcs."}}/>{sortField === 'amount' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
+                        <th style={{width: '6%'}} onClick={onSort.bind(null, 'amount')}><TranslatableText dictionary={{ua: "К-ть, шт.", ru: "К-во, шт.", gb: "Amount, pcs."}}/>{sortField === 'amount' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
                         <th style={{width: '8%'}} onClick={onSort.bind(null, 'priority')}><TranslatableText dictionary={{ua: "Пріорітет", ru: "Приоритет", gb: "Priority"}}/>{sortField === 'priority' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
                         <th style={{width: '10%'}} onClick={onSort.bind(null, 'commentary')}><TranslatableText dictionary={{ua: "Коментар", ru: "Комментарий", gb: "Commentary"}}/>{sortField === 'commentary' ? sort === 'asc' ? <img src={ArrowDn} alt="Sorted"/> : <img src={ArrowUp} alt="Sorted"/> : null}</th>
                         <th style={{width: '9%'}}><TranslatableText dictionary={{ua: "Інструменти", ru: "Инструменты", gb: "Tools"}}/></th>

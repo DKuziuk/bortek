@@ -24,7 +24,7 @@ export default class Login extends React.Component {
                     </div>
                 </div>
                 <div className="footer">
-                    <button type="button" className="btn">
+                    <button type="button" className="btn" onClick={this.props.logIn}>
                         <TranslatableText dictionary={{ua: "Увійти", ru: "Войти", gb: "Login"}}/>
                     </button>
                 </div>

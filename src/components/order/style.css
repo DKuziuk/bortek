@@ -4,6 +4,20 @@
     align-items: center;
     margin: 50px 0;
 }
+.order select, .order textarea, .order input {
+    border: 1px solid black;
+    border-radius: 5px;
+    transition: 0.5s all ease;
+}
+.order select:hover, .order textarea:hover, .order input:hover {
+    border-color: #4cbad8;
+    box-shadow: 0px 0px 12px 2px rgba(15, 15, 15, 0.2);
+}
+.order select:focus, .order textarea:focus, .order input:focus {
+    outline: none;
+    border-color: #4cbad8;
+    box-shadow: 0px 0px 12px 2px rgba(15, 15, 15, 0.2);
+}
 .order form {
     display: flex;
     margin: 30px auto;
@@ -27,6 +41,22 @@
     width: 95%;
     height: 70%;
 }
+.commentary-zone button, tfoot button {
+    background-color: #727272;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    transition: border-color 0.5s ease, color 0.5s ease;
+}
+.commentary-zone button:hover, tfoot button:hover {
+    color: #4cbad8;
+    border-color: #4cbad8;
+}
+.commentary-zone button:focus, tfoot button:focus {
+    outline: none;
+}
+.commentary-zone button:active, tfoot button:active {
+    box-shadow: inset 0 0 10px 2px #333637;
+}
 .amount {
     display: flex;
     flex-direction: column;
@@ -47,20 +77,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* background-color: #4cbad8; */
-    background-color: #3498db;
+    background-color: #4cbad8;
 }
-table {
+.orderList {
     border-collapse: collapse;
     table-layout: fixed;
     width: 85%;
 }
-td, th {
+.orderList td, .orderList th {
     padding: 2px 3px;
     border: 1px solid black;
     text-align: center;
 }
-th>img {
+.orderList th>img {
     width: 16px;
 }
 .tools-btn {
@@ -83,8 +112,7 @@ th>img {
     transform: rotate(90deg);
 }
 .rowSelected {
-    /* background-color: #4cbad8; */
-    background-color: #3498db;
+    background-color: #4cbad8;
 }
 .svg-view {
     box-shadow: inset 0px 0px 12px 2px rgba(15, 15, 15, 0.2);

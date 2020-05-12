@@ -79,7 +79,7 @@ export default class DragAndDrop extends Component {
                 fontSize: 36
               }}
             >
-              <div><TranslatableText dictionary={{ua: "Перетяніть сюди", ru: "Перетяните сюда", gb: "Drop here"}}/></div>
+              <div><TranslatableText dictionary={{ua: "Перетягніть сюди", ru: "Перетяните сюда", gb: "Drop here"}}/></div>
             </div>
           </div>
         }

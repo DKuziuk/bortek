@@ -112,7 +112,7 @@ export default class OrderChanger extends React.Component {
                         value={this.state.commentary}
                         />
                         <div>
-                            <button type="button" onClick={cancelChangedOrder}><TranslatableText dictionary={{ua: "Відмінити", ru: "Отменить", gb: "Cancel"}}/></button>
+                            <button style={{marginRight: '5px'}} type="button" onClick={cancelChangedOrder}><TranslatableText dictionary={{ua: "Відмінити", ru: "Отменить", gb: "Cancel"}}/></button>
                             <button type="button" onClick={this.handleSave}><TranslatableText dictionary={{ua: "Зберегти", ru: "Сохранить", gb: "Save"}}/></button>
                         </div>
                     </div>

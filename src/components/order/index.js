@@ -141,7 +141,7 @@ export default class Order extends React.Component {
             this.setState({changingRow: -1});
             this.setState({changing: false});
             this.setState({styleOfOrderCreator: {}});
-        } else if (deletedId < this.state.changingRow) {
+        } else if (deletedId < this.state.changingRow && this.state.changingRow > id) {
             let { changingRow } = this.state;
             this.setState({changingRow: --changingRow});
         }

@@ -3,6 +3,7 @@
     flex-direction: column;
     position: relative;
     width: 430px;
+    border: 1px solid #4cbad8 ;
     border-radius: 7px;
     overflow: hidden;
     background-color: #f3e8e8;
@@ -12,6 +13,26 @@
     margin: 3px 0;
     display: flex;
     justify-content: center;
+}
+.drag-zone>div:last-child button {
+    padding: 0 20px;
+    background-color: #727272;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    transition: border-color 0.5s ease, color 0.5s ease;
+}
+.drag-zone>div:last-child button:first-child {
+    margin-right: 10px;
+}
+.drag-zone>div:last-child button:hover {
+    color: #4cbad8;
+    border-color: #4cbad8;
+}
+.drag-zone>div:last-child button:focus {
+    outline: none;
+}
+.drag-zone>div:last-child button:active {
+    box-shadow: inset 0 0 10px 2px #333637;
 }
 .fileList {
     height: 100%;

@@ -63,7 +63,7 @@ export default class OrderCreator extends React.Component {
             this.props.submit(files, material, thickness, amount, priority, commentary);
             this.clearZone();
         } else {
-            alert ("Пожалуйста, проверьте правильность введённых данных.");
+            alert ("Будь ласка, перевірте чи всі файли збережені в форматі .dxf");
         }
     }
 
@@ -71,7 +71,7 @@ export default class OrderCreator extends React.Component {
         return(
             <form action="" onSubmit={this.handleSubmit}>
                     <DragAndDrop handleDrop={this.handleDrop}>
-                        <span style={{textAlign: "center"}}><TranslatableText dictionary={{ua: "Перетяніть файл(и) сюди:", ru: "Перетяните файл(ы) сюда:", gb: "Drop file(s) here:"}}/></span>
+                        <span style={{textAlign: "center"}}><TranslatableText dictionary={{ua: "Перетягніть файл(и) сюди:", ru: "Перетяните файл(ы) сюда:", gb: "Drop file(s) here:"}}/></span>
                         <ul className="fileList">
                         {this.state.files.map((file, i) =>
                             <li key={i}>{file.name}</li>)
@@ -109,9 +109,9 @@ export default class OrderCreator extends React.Component {
                         </div>
                         <span><TranslatableText dictionary={{ua: "Пріорітет", ru: "Приоритет", gb: "Priority"}}/></span>
                         <select ref={this.priorityHTML} defaultValue="lowPriority">
-                            <option value="lowPriority">Низкий</option>
-                            <option value="mediumPriority">Средний</option>
-                            <option value="highPriority">Высокий</option>
+                            <option value="lowPriority">{<TranslatableText dictionary={{ua: "Низький", ru: "Низкий", gb: "Low"}}/>}</option>
+                            <option value="mediumPriority">Середній</option>
+                            <option value="highPriority">Високий</option>
                         </select>
                     </div>
                     <div className="commentary-zone">
