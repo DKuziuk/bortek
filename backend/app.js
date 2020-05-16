@@ -7,7 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var jwt = require('express-jwt');
 const login = require ('./passport/login.js');
-const signup = require('./passport/signup.js');
+//const signup = require('./passport/signup.js');
 // load config data
 const config = require('./config');
 //connect to mongodb

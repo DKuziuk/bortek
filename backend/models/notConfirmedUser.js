@@ -99,7 +99,7 @@ UserNotConfirmedSchema.statics.findByLink = function (id,cb) {
 UserNotConfirmedSchema.statics.findByEmail = function (email,cb) {
   // -- настройки логгера --------------
   let trace=0;
-  let logN=logName+"findByEmail:"+email+":";trace = ((gTrace !== 0) ? gTrace : trace);
+  let logN=logName+"findByEmail:"+email+":->";trace = ((gTrace !== 0) ? gTrace : trace);
   if (trace) {l("i",logN,"Started")};
   let caption="NotConfirmedSchema:findByEmail:"+email+" :->";
   this.findOne({'email':email},function(err,person) {
@@ -140,6 +140,7 @@ UserNotConfirmedSchema.statics.addUser = async function (user,cb) {
     let trace=0;
     let logN=logName+"addUser:"+user.email+":=>";trace = ((gTrace !== 0) ? gTrace : trace);
     if (trace) {l("i",logN,"Started")};
+
     user.pwd=await argon2.hash(user.pwd);
     this.create(user, function(err,user){
       if (err)  {

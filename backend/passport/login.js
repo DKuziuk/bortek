@@ -38,6 +38,7 @@ router.get('/signup/test', async function(req, res, next) {
 });
 
 router.get('/signup/:id', async function(req, res, next) {
+  // ---------  ПОДТВЕРЖДЕНИЕ Email ------------------------
   // -- настройки логгера --------------
   let trace=1;
   let logN=logName+"GET::/signup/"+req.params.id+" => ";trace = ((gTrace !== 0) ? gTrace : trace);
@@ -70,17 +71,20 @@ router.get('/signup/:id', async function(req, res, next) {
                 // удаляем пользователя с базы   NotConfirmedUser
                 NotConfirmedUser.deleteByLink(id,(err,data)=>{
                   if (trace) {l("i",logN,"NotConfirmedUser.deleteByLink:data=",data)};
+                  if (err) {
+                    // если ошибка удаления пишем в лог, пользователь автоматически удалится после истечения срока
+                    l("e",logN,"NotConfirmedUser.deleteByLink:data=",err.msg.ru)
+                  }
+                  // отправляем страничку с успешной авторизацией
+                  res.status(200).render("userConfirmEmail_Ok",{"email":data.email,
+                                                           "home":config.home.ui,
+                                                           "title":config.home.title
+                                                         }
+                                        );//res
                 });
-                // отправляем страничку с успешной авторизацией
-                res.status(200).render("userConfirmEmail_Ok",{"email":data.email,
-                                                         "home":config.home.ui,
-                                                         "title":config.home.title
-                                                       }
-                                      );//res
-
                 return
               } else {
-
+                next();
               }
             })
           }
@@ -196,17 +200,16 @@ router.post('/signup', async function(req, res, next) {
       }) //  User.findByEmail
 });///  POST /signup
 
-router.get('/', async function(req, res, next) {
-  // -- настройки логгера --------------
-  let trace=1;
-  let logN=logName+"route:/singin:";trace = ((gTrace !== 0) ? gTrace : trace);
-  if (trace) {l("w",logN,"Started")};
-  // -- настройки логгера --------------
-  if (trace) {l("i",logN,"user:", req.query)};
-  //if (trace) {l("i",logN,"req.headers=:", req.headers)};
+router.post('/', async function(req, res, next) {
   let email=req.query.email;
   let pwd=req.query.pwd;
+  // -- настройки логгера --------------
+  let trace=1;
+  let logN=logName+"POST:/login/email="+email+"=> ";trace = ((gTrace !== 0) ? gTrace : trace);
+  if (trace) {l("i",logN,"Started. req.query=", req.query)};
+  // --------- проверяем наличие всех необходимых данных ---------------
   if ( ! email | ! pwd) {
+    // нехватает данных: ошибка+выход
     let text=` --> email:${email}; pwd:${pwd}`
     res.status(400).json({
       err:{
@@ -218,71 +221,103 @@ router.get('/', async function(req, res, next) {
        ,data:null
       }
     } );//res
-    // res.status(400);
-    // next(new Error("Bad request. User:"+email+" pwd="+pwd));
-  }
-  let data = await login(email,pwd).catch((err) => {
-    l("w",logN,"req.headers=:", err);
-    let text=` --> email:${email}; pwd:${pwd}; ${err}`
-    res.status(404).json({
-      err:{
-         msg:{
-           "en":"User not found"+text
-          ,"ru":"Пользователь не найден"+text
-          ,'ua':"Користувача не знайдено"+text
-        }
-       ,data:null
-      }
-    }
-  );//res
-    //return next(err)
-  });
-  if (trace) {l("i",logN," data=", data)};
-  if (! data.user.verified) {
-    res.status(401).json({
-      err:{
-         msg:{
-           "en":"Email is not verified. Please, verify it , by click on link, what we were send to your E-mail: "+email
-          ,"ru":"Электронная почта не подтверждена. Для подтверждения,пожалуйста, перейдите по ссылке, отправленной на E-mail: "+email
-          ,'ua':"Електронна пошта не підтверджена. Для підтвердження, будь ласка, перейдіть за посиланням, що ми надіслали на E-mail: "+email
-        }
-       ,data:null
-      }
-    });
-  } else {
-    res.status(200).json({
-      err:null
-      ,"data":data
-    }
-    );
-  }
+    return
+  } //if ( ! email | ! pwd)
 
+  // -----------  запрос в базу --------------------
+  let userRecord=await User.findOne({'email':email});
+  if (trace) {l("i",logN,"userRecord=", userRecord)};
+  if (! userRecord) {
+    // пользователь не найден
+    //  -------------- ищем в базе ожидающих подтверждение Email ------------
+    let notConfirmedUser= await NotConfirmedUser.findOne({'email':email});
+    if (trace) {l("i",logN,"notConfirmedUser=", notConfirmedUser)};
+    if (! notConfirmedUser) {
+      // в базе неподтвержденных тоже нет, ответ - ошибка
+      if (trace) {l("e",logN,"User not found")};
+      res.status(404).json({
+        err:{
+           msg:{
+             "en":logN+"User not found"
+            ,"ru":logN+"Пользователь не найден"
+            ,'ua':logN+"Користувача не знайдено"
+          }} //err
+        ,data:null
+      });//res
+      return
+    }; //  if (! notConfirmedUser)
+
+    // пользователь найден в базе неподтвержденных
+    // отправляем письмо
+    NotConfirmedUser.findByEmail(email,(err,user)=>{
+      if (user) {
+       sendMail(user,(err,data) =>{if (trace) {l("w",logN,"Was sent activation Letter")};return}); // повторно отсылаем письмо  
+      }
+    })
+
+    // ответ с ошибкой
+    if (trace) {l("w",logN,"Email not confirmed.")};
+    res.status(449).json({
+      err:{
+         msg:{
+           "en":logN+"Email not confirmed. We was sent to your Email the confirmation link"
+          ,"ru":logN+"Электронная почта не подтверждена. Мы отправили Вам ссылку для подтверждения"
+          ,'ua':logN+"Електронна пошта не підтверджена. Ми надіслали Вам посилання для підтвердження"
+        }} //err
+      ,data:null
+    });//res
+    return
+  }//if (! userRecord)
+  // ----------- пользователь найден  -------------
+  // ----------    проверяем пароль   -------------
+  let correctPasword = await argon2.verify(userRecord.pwd,pwd);
+  if (! correctPasword) {
+    // --------- неправильній пароль ---------------
+    if (trace) {l("e",logN,"Password is wrong.")};
+    res.status(449).json({
+      err:{
+         msg:{
+           "en":logN+"Password is wrong."
+          ,"ru":logN+"Неправильный пароль."
+          ,'ua':logN+"Невірний пароль."
+        }} //err
+      ,data:null
+    });//res
+    return
+  } //if (! correctPasword)
+  // -------   ВСЕ Ок -----------------
+  // ------ генерируем ответ ----------
+  let msg= {user:{
+                _id:userRecord._id
+                , email:userRecord.email
+                , verified : userRecord.verified
+              },
+            token:generateJWT(userRecord) // token
+          } // msg
+  res.status(200).json({
+    err:null //err
+    ,data:msg
+  });//res
   //res.send('respond with a resource ');
 });
 
 module.exports = router;
 
 
-async function login(email,pwd){
-  let userRecord=await User.findOne({'email':email});
-  if (! userRecord) {
-    throw new Error ('User not found')
-  } else {
-    console.log("findByEmail:: user=",userRecord.email);
-    const correctPasword = await argon2.verify(userRecord.pwd,pwd);
-    if (! correctPasword) {
-      throw new Error ('Incorrect password')
-    }
-    return {
-      user:{
-        _id:userRecord._id
-        , email:userRecord.email
-        , verified : userRecord.verified
-      },
-      token:generateJWT(userRecord)
-    }
-  } //else
-}
+// async function login(email,pwd){
+//
+//   if (! userRecord) {
+//     throw new Error ('User not found')
+//   } else {
+//     console.log("findByEmail:: user=",userRecord.email);
+//     const correctPasword = await argon2.verify(userRecord.pwd,pwd);
+//     if (! correctPasword) {
+//       throw new Error ('Incorrect password')
+//     }
+//     return {
+//
+//   } //else
+// }
 
 function generateJWT(user){
   let data={

@@ -2,12 +2,13 @@ const sendmail=require('../nodemail.js');//настроенный транспо
 // ------------ логгер  --------------------
 const l = require('../log.js'); // логер
 let logName="<"+(__filename.replace(__dirname,"")).slice(1)+">:";
-let gTrace=0; //=1 глобальная трассировка (трассируется все)
+
 
 const conf=require('../config.js').home;
 
 // отсылает регистрационное письмо на указанный адрес
 function sentLetter(user,cb) {
+  // user={ email:"" , link:"" }
   let link=` ${conf.url}/login/signup/${user.link}`;
   let message={
      to:user.email
@@ -27,10 +28,10 @@ module.exports=sentLetter;//module.exports
 if (! module.parent) {
   sentLetter({email:"0504238839@ukr.net",link:"5eb800b83ff7e65c34bc8646"},(err,data) => {
     if (err) {
-      l("e",err)
+      l("e",logName,err)
     }
     if (data) {
-      l("i","Letter to: ",data.to[0], " was sended")
+      l("i",logName,"Letter to: ",data.to[0], " was sended")
     }
   })
 }
