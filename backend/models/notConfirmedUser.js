@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 var Schema= mongoose.Schema;
+const waitPeriod=3*24*60*60*1000 // срок годности ссылки мсек
 const argon2 = require('argon2');
 // ------------ логгер  --------------------
 const l = require('../log.js'); // логер
@@ -12,7 +13,9 @@ var UserNotConfirmedSchema= new Schema({
      index:true,
      type:String,
      unique:true,
-     required:true
+     required:true,
+     lowercase:true,
+     trim:true
      } //email
   ,pwd:{
     type:String,
@@ -21,7 +24,7 @@ var UserNotConfirmedSchema= new Schema({
   ,timestamp:{
     type:Number,
     default: function() {
-      return (new Date()).getTime()+3*24*60*60*1000 // + 3 дня
+      return (new Date()).getTime()+waitPeriod //
     }
   }// ссылка для подтверждения
 });
@@ -164,5 +167,34 @@ UserNotConfirmedSchema.statics.addUser = async function (user,cb) {
 }; //addUser
 
 
+
 var NotConfirmed=mongoose.model('notConfirmedUser',UserNotConfirmedSchema); // создаем модель и коллекцию: notConfirmedUser
 module.exports=NotConfirmed;
+
+function clearByTimeout(){
+  // -- настройки логгера --------------
+  let trace=1;
+  let logN=logName+"clearByTimeout => ";trace = ((gTrace !== 0) ? gTrace : trace);
+  if (trace) {l("i",logN,"Started")};
+  // очищает устаревшие записи (срок которых истек)
+  let timestamp=(new Date()).getTime();
+  if (trace) {l("i",logN,"timeout=",timestamp)};
+   NotConfirmed.find({"timestamp" :{ $lte : timestamp}},function(err,docs) {
+     if (err) {
+         if (trace) {l("e",logN,"Error querry:",err)};
+     }
+     if (trace) {l("i",logN,"docs=",docs)};
+     for (var i = 0; i < docs.length; i++) {
+       let id=docs[i]._id;
+       let email=docs[i].email;
+       NotConfirmed.deleteOne({"_id":docs[i]._id},(err) =>{
+         if (err) {
+           l("e",logN,"Deleting error:",err);
+           return
+         }
+         if (trace) {l("i",logN,"Deleted uid=",id,";email=",email)};
+       })//NotConfirmed.deleteOne
+     };//for
+   })//NotConfirmed.find
+}//function clearByTimeout
+clearByTimeout();

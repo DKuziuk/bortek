@@ -4,7 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+//var usersRouter = require('./routes/users');
+const settingsRouter = require('./routes/settings');
 var jwt = require('express-jwt');
 const login = require ('./passport/login.js');
 //const signup = require('./passport/signup.js');
@@ -31,19 +32,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Configuring Passport
-// const passport = require('passport');
-// var expressSession = require('express-session');
-// app.use(expressSession({secret: 'mySuperDuperPassw'}));
-// app.use(passport.initialize());
-// app.use(passport.session());
-// // настраиваем passport
-// const initPassport = require('./passport/init');
-// initPassport(passport);
-// const myPassport = require('./passport/isAuth');
-// app.use(myPassport);
 
-app.use('/login', login); // верификация + выдача токена
+app.use('/login', login); // модуль ()верификация + выдача токена) или регистрация
 // app.use(function(req,res,next){
 //   console.log('------req.user-------');
 //   console.log(req.user);
@@ -66,9 +56,9 @@ app.use(function(req,res,next){
   console.log('-------------');
   next();
 });
-
+app.use('/settings', settingsRouter);
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

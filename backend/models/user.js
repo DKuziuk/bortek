@@ -10,20 +10,20 @@ var UserSchema= new Schema({
      type:String,
      unique:true,
      index:true} //email
-  ,nickname: String
   ,pwd:{
     type:String,
     required:true,
-
   } //password
-  ,adresses: [DeliveryAdressSchema] // адреса доставки
-  ,person: {
+  ,currentOrder:Schema.Types.ObjectId // id текущего открытого заказа (корзины)
+  ,allOrders:[Schema.Types.ObjectId] // список id всех  заказов
+  ,adresses: [DeliveryAdressSchema] // адреса доставки. ПЕРЕДЕЛАТЬ  Решил хранить прямо в пользователе, т.к. это уникальная информация
+  ,person: { // имя, отчество, фамилия пользователя
     name:String,
     surname:String,
     patronymic:String
   }
-  ,paymentDetails: [PaymentDetailsShema] // реквизиты для оплаты
-})
+  ,paymentDetails: [PaymentDetailsShema] // реквизиты для оплаты ПЕРЕДЕЛАТЬ  Решил хранить прямо в пользователе, т.к. это уникальная информация
+});
 
 
 UserSchema.statics.findByEmail = function (email,cb) {

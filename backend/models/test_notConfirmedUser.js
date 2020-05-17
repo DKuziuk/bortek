@@ -109,13 +109,14 @@ function deleteByLink(link){
   findByEmail("1235@ukr.net"); //correct
   findByEmail("12356@ukr.net");//incorrect
 
-  setTimeout(function () {
-      for (var i = 0; i < users.length; i++) {
-        deleteByLink(users[i].link)
-      }
-      deleteByLink("5eb800b83ff7e65c34bc8647");
-
-  }, 2000);
+  // setTimeout(function () {
+  //    // ---  test deleting -----
+  //     for (var i = 0; i < users.length; i++) {
+  //       deleteByLink(users[i].link)
+  //     }
+  //     deleteByLink("5eb800b83ff7e65c34bc8647");
+  //
+  // }, 2000);
   // User.findByEmail("ss@ukr.net",(err,person)=>{
   //   if (err) {console.error(err);return};
   //   if (person) {
@@ -126,6 +127,7 @@ function deleteByLink(link){
   //   console.log("No person finded.");
   //
   // });
+  
 
   }
   start();
