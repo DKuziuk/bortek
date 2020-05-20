@@ -2,7 +2,8 @@ var config={};
 
 
 config['db']={
-  url:"mongodb://express:Danya@localhost:27017/lazer?authSource=lazer&readPreference=primary&appname=Express&ssl=false"
+  url:"mongodb+srv://express:Danya@cluster0-jsi7v.azure.mongodb.net/test?retryWrites=true&w=majority"
+  //url:"mongodb://express:Danya@localhost:27017/lazer?authSource=lazer&readPreference=primary&appname=Express&ssl=false"
   ,options:{useNewUrlParser: true, useUnifiedTopology:true ,useFindAndModify:false}
 }; //db
 

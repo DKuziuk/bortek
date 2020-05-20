@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const items = require ('./routes/items.js');
 var indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
 const settingsRouter = require('./routes/settings');
@@ -11,6 +12,7 @@ const login = require ('./passport/login.js');
 //const signup = require('./passport/signup.js');
 // load config data
 const config = require('./config');
+const User=require('./models/user.js');
 //connect to mongodb
 const mongoose = require('mongoose');
 mongoose.connect(config.db.url,config.db.options )
@@ -40,12 +42,7 @@ app.use('/login', login); // модуль ()верификация + выдач�
 //   console.log('-------------');
 //   next();
 // });
-app.use(function(req,res,next){
-  console.log('------req.headers-------');
-  console.log(req.headers);
-  console.log('-------------');
-  next();
-});
+
 // jwt ищет заголовок Authorization с токеном в формате "Bearer  eyJhbGciOiJIUzI1NiIsI..." пробел обязательно
 // и записывает пользователя в req.user, если токен не правильный - ошибка 401
 app.use(jwt({secret:config.jwt.secret}));
@@ -56,6 +53,14 @@ app.use(function(req,res,next){
   console.log('-------------');
   next();
 });
+
+app.use(async function(req,res,next){
+  User.findById(req.user.data._id,'basket',(err,data)=>{
+    req.user.data['basket']=data.basket;
+    console.log(req.user);
+    next();})
+});
+app.use('/items', items);
 app.use('/settings', settingsRouter);
 app.use('/', indexRouter);
 

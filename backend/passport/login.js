@@ -251,7 +251,7 @@ router.post('/', async function(req, res, next) {
     // отправляем письмо
     NotConfirmedUser.findByEmail(email,(err,user)=>{
       if (user) {
-       sendMail(user,(err,data) =>{if (trace) {l("w",logN,"Was sent activation Letter")};return}); // повторно отсылаем письмо  
+       sendMail(user,(err,data) =>{if (trace) {l("w",logN,"Was sent activation Letter")};return}); // повторно отсылаем письмо
       }
     })
 
@@ -285,6 +285,7 @@ router.post('/', async function(req, res, next) {
     });//res
     return
   } //if (! correctPasword)
+
   // -------   ВСЕ Ок -----------------
   // ------ генерируем ответ ----------
   let msg= {user:{
@@ -304,20 +305,6 @@ router.post('/', async function(req, res, next) {
 module.exports = router;
 
 
-// async function login(email,pwd){
-//
-//   if (! userRecord) {
-//     throw new Error ('User not found')
-//   } else {
-//     console.log("findByEmail:: user=",userRecord.email);
-//     const correctPasword = await argon2.verify(userRecord.pwd,pwd);
-//     if (! correctPasword) {
-//       throw new Error ('Incorrect password')
-//     }
-//     return {
-//
-//   } //else
-// }
 
 function generateJWT(user){
   let data={

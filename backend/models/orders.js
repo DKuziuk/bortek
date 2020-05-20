@@ -73,42 +73,52 @@ var OrderSchema= new Schema({
   ,deviveryAdress: DeliveryAddressSchema  // номер адреса доставки в списке  адресов
   ,state : { // состояние заказа код
     type:String
-    ,enum:stateList
-    ,default:0
+    ,default:""
   }
+
   ,stateTitle : { // состояние заказа описание
     type:String
     ,default:"Корзина"
   }
+
   ,price: { // текущая стоимость заказа
     type:Number
     ,default:0
   }
+
   ,startTime:{// timestamp создания
     type:Number
     ,default: now
   }
+
   ,lastChange:{ // timestamp последнего изменения
     type:Number
     ,default:now
   }
+
   ,invoice_id:{// id счета, для оплаты Заказа
      type:Schema.Types.ObjectId
     ,default:null
     }
+
   ,log:{ // лог событий по  Заказу
     type:String
     ,default:""
   }
 }) //OrderSchema
 
+
 OrderSchema.statics.newOrder = async function (user) {
   // добавляет новый заказ
 
 }
 
+
 OrderSchema.statics.deleteOrder = async function (user) {
+
 }
+
+
 
 OrderSchema.statics.toNextState = async function (user) {
 
