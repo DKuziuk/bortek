@@ -6,15 +6,19 @@ const PaymentDetailsShema = require('./paymentDetails.js');
 const DeliveryAdressSchema= require("./deliveryAdress.js");
 
 var UserSchema= new Schema({
-   email: {
+   email: { //email
      type:String,
      unique:true,
-     index:true} //email
+     index:true
+   }
   ,pwd:{
     type:String,
     required:true,
   } //password
-  ,currentOrder:Schema.Types.ObjectId // id текущего открытого заказа (корзины)
+  ,basket:{// id текущего открытого заказа (=корзина)
+     type:String//Schema.Types.ObjectId
+    ,default:null
+  }
   ,allOrders:[Schema.Types.ObjectId] // список id всех  заказов
   ,adresses: [DeliveryAdressSchema] // адреса доставки. ПЕРЕДЕЛАТЬ  Решил хранить прямо в пользователе, т.к. это уникальная информация
   ,person: { // имя, отчество, фамилия пользователя
