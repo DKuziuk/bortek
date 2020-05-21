@@ -32,6 +32,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req,res,next){
+  res.set("Acess-Control-Allow-Origin","http://192.168.1.108:3000");
+  res.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  console.log('------req.query-------');
+  console.log(req.query);
+  console.log('-------------');
+  next();
+});
 
 app.use('/login', login); // модуль ()верификация + выдача токена) или регистрация
 // app.use(function(req,res,next){
@@ -51,6 +60,7 @@ app.use(function(req,res,next){
 app.use(jwt({secret:config.jwt.secret}));
 
 app.use(function(req,res,next){
+  res.set("Acess-Control-Allow-Origin","*");
   console.log('------req.user-------');
   console.log(req.user);
   console.log('-------------');
