@@ -2,8 +2,8 @@ import React from 'react';
 import OrderChanger from './OrderChanger';
 import OrderCreator from './OrderCreator';
 import OrderList from './OrdersList';
-import { TotalLength } from './totalLength';
-import { areaOfElem } from './totalArea';
+// import { TotalLength } from './totalLength';
+// import { areaOfElem } from './totalArea';
 import _ from 'lodash'; // Сортировка, источник: https://abcinblog.blogspot.com/2019/02/react-i.html
 import "./style.css";
 
@@ -36,11 +36,13 @@ export default class Order extends React.Component {
                     let dxfContents = e.target.result;
                     let helper = new dxf.Helper(dxfContents);
                     // console.log(helper);
-                    let laserLength = TotalLength(helper);
+                    // let laserLength = TotalLength(helper);
                     // console.log(`Длинна реза: ${TotalLength(helper).toFixed(2)} мм.`);
-                    console.log(`Длинна реза: ${laserLength.cut.toFixed(2)} мм.`);
-                    console.log(`Длинна гравировки: ${laserLength.engraving.toFixed(2)} мм.`);
-                    console.log(`Общая площадь: ${areaOfElem(helper).toFixed(2)} мм^2.`);
+
+                    // console.log(`Длинна реза: ${laserLength.cut.toFixed(2)} мм.`);
+                    // console.log(`Длинна гравировки: ${laserLength.engraving.toFixed(2)} мм.`);
+                    // console.log(`Общая площадь: ${areaOfElem(helper).toFixed(2)} мм^2.`);
+
                     const svg = helper.toSVG();
                     callback(null, id, svg)
                 } else return callback(new Error("шось пошло не так"), id, null);
@@ -154,7 +156,19 @@ export default class Order extends React.Component {
             // this.setState({
             //     orders
             // })
-            console.log(this.state.orders);
+
+            // console.log(this.state.orders);
+
+            var xhr = new XMLHttpRequest();
+            const orders = this.state.orders;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    alert(xhr.responseText);
+                }
+            }
+            xhr.open("POST", '/items/add', true);
+            xhr.setRequestHeader("Authorization", this.props.token);
+            xhr.send(JSON.stringify(orders));
             this.setState({
                 orders: [
                     {

@@ -2,6 +2,8 @@ import React from 'react';
 import { TranslatableText } from "../langChanger/index.jsx";
 import Login from "./login.jsx";
 import Register from "./register.jsx";
+import ErrorNotification from "./ErrorNotification.jsx";
+import { Redirect } from 'react-router-dom';
 import "./style.css";
 
 const RightSide = props => {
@@ -15,11 +17,48 @@ const RightSide = props => {
 };
 
 export default class LoginForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLogginActive: true,
-        };
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         isLogginActive: true,
+    //         errors: {
+    //             err400: false,
+    //             err403: false,
+    //             err404: false,
+    //             err409: false,
+    //             err449: false
+    //         }
+    //     };
+    // }
+    state = {
+        isLogginActive: true,
+        errors: {
+            err400: false,
+            err403: false,
+            err404: false,
+            err409: false,
+            err449: false
+        },
+        redirectToReferrer: false
+    }
+    changeRedirectState = () => {
+        this.setState({redirectToReferrer: true});
+    }
+    createNotification = errorCode => {
+            this.setState(prevState => ({
+                errors: {
+                ...prevState.errors,
+                ["err" + errorCode]: true
+                }
+              }))
+            setTimeout(() => {
+                this.setState(prevState => ({
+                    errors: {
+                    ...prevState.errors,
+                    ["err" + errorCode]: false
+                    }
+                  }))
+            }, 1800)
     }
 
     componentDidMount() {
@@ -40,14 +79,23 @@ export default class LoginForm extends React.Component {
     }
 
     render() {
-        const { isLogginActive } = this.state;
+        const { isLogginActive, errors } = this.state;
         const current = isLogginActive ? <TranslatableText dictionary={{ua: "Реєстрація", ru: "Регистрация", gb: "Register"}}/> : <TranslatableText dictionary={{ua: "Увійти", ru: "Войти", gb: "Login"}}/>;
+        
+        const { from } = this.props.location.state || { from: { pathname: '/mainpage' } }
+        const { redirectToReferrer } = this.state
+
+        if (redirectToReferrer === true) {
+            return <Redirect to={from} />
+        }
+        
         return (
             <div className="App">
+                <ErrorNotification errors={errors} leftSide={isLogginActive}/>
                 <div className="login">
                     <div className="container" ref={ref => (this.container = ref)}>
-                        {isLogginActive && <Login containerRef={ref => this.current = ref} logIn={this.props.logIn} />}
-                        {!isLogginActive && <Register containerRef={ref => this.current = ref} />}
+                        {isLogginActive && <Login containerRef={ref => this.current = ref} logIn={this.props.logIn} createNotification={this.createNotification} changeRedirectState={this.changeRedirectState} />}
+                        {!isLogginActive && <Register containerRef={ref => this.current = ref} createNotification={this.createNotification} />}
                     </div>
                     <RightSide
                     current={current}

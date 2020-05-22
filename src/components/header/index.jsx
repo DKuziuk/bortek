@@ -30,12 +30,12 @@ export default class Header extends React.Component {
                 <div>
                     <div className="logg">
                         {
-                            !this.props.isLogged &&
+                            !this.props.isAuthorized &&
                             <Link to="/loginform"><TranslatableText dictionary={{ua: 'Увійти', ru: 'Войти', gb: 'Login'}}/></Link>
                         }
                     </div>
                     {
-                        this.props.isLogged &&
+                        this.props.isAuthorized &&
                         <div className="logg">
                             <b><TranslatableText dictionary={{ua: 'Ім\'я', ru: 'Имя', gb: 'Name'}}/></b>
                             <a href="#/mainpage" onClick={this.props.logOut}><TranslatableText dictionary={{ua: 'Вийти', ru: 'Выйти', gb: 'Log out'}}/></a>

@@ -59,3 +59,44 @@
 /* .base-container .footer {
     margin-top: 3em;
 } */
+
+.notification {
+    z-index: 999;
+    animation: startNotification, endNotification 1.5s;
+    animation-duration: .3s, .3s;
+    animation-delay: 0s, 1.5s;
+    position: fixed;
+    left: 15px;
+    bottom: 15px;
+    padding: 15px 25px;
+    background: rgb(238,19,19);
+    background: linear-gradient(20deg, rgba(238,19,19,1) 0%, rgba(255,215,35,1) 100%);
+    border-radius: 5px;
+}
+.rightNotification {
+    z-index: 999;
+    animation: startNotification, endNotification;
+    animation-duration: .3s, .3s;
+    animation-delay: 0s, 1.5s;
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    padding: 15px 25px;
+    background: rgb(238,19,19);
+    background: linear-gradient(20deg, rgba(238,19,19,1) 0%, rgba(255,215,35,1) 100%);
+    border-radius: 5px;
+}
+.notification span, .rightNotification span {
+    font-weight: 600;
+    font-family: sans-serif;
+    color: white;
+}
+
+@keyframes startNotification {
+    from {bottom: -100px;}
+    to {bottom: 15px;}
+}
+@keyframes endNotification {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
