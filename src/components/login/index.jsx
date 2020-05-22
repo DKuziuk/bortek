@@ -17,29 +17,19 @@ const RightSide = props => {
 };
 
 export default class LoginForm extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         isLogginActive: true,
-    //         errors: {
-    //             err400: false,
-    //             err403: false,
-    //             err404: false,
-    //             err409: false,
-    //             err449: false
-    //         }
-    //     };
-    // }
-    state = {
-        isLogginActive: true,
-        errors: {
-            err400: false,
-            err403: false,
-            err404: false,
-            err409: false,
-            err449: false
-        },
-        redirectToReferrer: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLogginActive: true,
+            errors: {
+                err400: false,
+                err403: false,
+                err404: false,
+                err409: false,
+                err449: false
+            },
+            redirectToReferrer: false
+        };
     }
     changeRedirectState = () => {
         this.setState({redirectToReferrer: true});

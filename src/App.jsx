@@ -12,19 +12,22 @@ import "./App.css";
 export default class App extends React.Component {
     state = {
         isAuthorized: false,
-        token: ''
+        token: '',
+        userEmail: ''
     }
      
-    logIn = token => {
+    logIn = (token, userEmail) => {
         this.setState({
             isAuthorized: true,
-            token
+            token,
+            userEmail
         });
     }
     logOut = () => {
         this.setState({
             isAuthorized: false,
-            token: ''
+            token: '',
+            userEmail: ''
         })
     }
     
@@ -32,7 +35,7 @@ export default class App extends React.Component {
         const PrivateRoute = ({ component: Component, ...rest }) => (
             <Route {...rest} render={(props) => (
               this.state.isAuthorized === true
-                ? <Component {...props} />
+                ? <Component {...props} token={this.state.token}/>
                 : <Redirect to={{
                     pathname: "/loginform",
                     state: { from: props.location }
@@ -42,13 +45,10 @@ export default class App extends React.Component {
         return (
             <HashRouter>
                 <LanguageProvider className="all">
-                    <Header isAuthorized={this.state.isAuthorized} logOut={this.logOut} />
+                    <Header isAuthorized={this.state.isAuthorized} logOut={this.logOut} userEmail={this.state.userEmail} />
                     <Route path="/mainpage" component={Main} />
                     <Route path="/loginform" render={(props) => <LoginForm {...props} logIn={this.logIn} />} />
-                    {/* <Route path="/loginform" render={(props) => <LoginForm {...props} logIn={this.logIn} redirectToReferrer={this.state.redirectToReferrer} />} /> */}
-                    {/* <Route path="/loginform" render={(props) => <LoginForm {...props} logIn={this.logIn} />} /> */}
-                    {/* <Route path="/order" render={(props) => <Order {...props} token={this.state.token} />} /> */}
-                    <PrivateRoute path="/order" render={(props) => <Order {...props} token={this.state.token} />} />
+                    <PrivateRoute path="/order" component={Order} />
                     <Route path="/pricer" component={Pricer} />
                     {/* <News /> */}
                 </LanguageProvider>

@@ -14,7 +14,7 @@ export default class Login extends React.Component {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                    this.props.logIn(JSON.parse(xhr.responseText).data.token);
+                    this.props.logIn(JSON.parse(xhr.responseText).data.token, JSON.parse(xhr.responseText).data.user.email);
                     setTimeout(this.props.changeRedirectState, 100);
                 } else {
                     this.props.createNotification(xhr.status);

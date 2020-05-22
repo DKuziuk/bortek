@@ -66,6 +66,7 @@
     color: black;
     transition: color 0.5s ease, border 0.5s ease;
     border-radius: 3px;
+    font-family: cursive;
     padding: 2px 4px;
     text-decoration: none;
 }
@@ -76,6 +77,7 @@
 .logg a:active {
     box-shadow: inset 0 0 10px 2px #333637;
 }
-.logg a, .logg b {
+.logg span {
     font-family: cursive;
+    padding: 5px;
 }

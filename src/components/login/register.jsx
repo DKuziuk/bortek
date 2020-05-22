@@ -26,7 +26,6 @@ export default class Register extends React.Component {
                         alert('Дякую. Ми відправили Вам на пошту повідомлення з посиланням для підтвердження реєстрації.')
                     } else {
                         this.props.createNotification(xhr.status);
-                        console.log(JSON.parse(xhr.responseText));
                     }
                 }
             }

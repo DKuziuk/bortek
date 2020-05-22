@@ -37,7 +37,7 @@ export default class Header extends React.Component {
                     {
                         this.props.isAuthorized &&
                         <div className="logg">
-                            <b><TranslatableText dictionary={{ua: 'Ім\'я', ru: 'Имя', gb: 'Name'}}/></b>
+                            <span>{this.props.userEmail}</span>
                             <a href="#/mainpage" onClick={this.props.logOut}><TranslatableText dictionary={{ua: 'Вийти', ru: 'Выйти', gb: 'Log out'}}/></a>
                             {/* <button onClick={this.props.logOut}>Вийти</button> */}
                         </div>
