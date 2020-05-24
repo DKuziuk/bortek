@@ -109,9 +109,13 @@ export default class OrderCreator extends React.Component {
                         </div>
                         <span><TranslatableText dictionary={{ua: "Пріорітет", ru: "Приоритет", gb: "Priority"}}/></span>
                         <select ref={this.priorityHTML} defaultValue="lowPriority">
-                            <option value="lowPriority">{<TranslatableText dictionary={{ua: "Низький", ru: "Низкий", gb: "Low"}}/>}</option>
-                            <option value="mediumPriority">Середній</option>
-                            <option value="highPriority">Високий</option>
+                            {/* <TranslatableText dictionary={{ua: "Низький", ru: "Низкий", gb: "Low"}}>
+                                {txt => <option value="lowPriority">{txt}</option>}
+                            </TranslatableText> */}
+                            <TranslatableText dictionary={{ua: "Низький", ru: "Низкий", gb: "Low"}} tagName="option" />
+                            <option value="lowPriority">!</option>
+                            <option value="mediumPriority">! !</option>
+                            <option value="highPriority">! ! !</option>
                         </select>
                     </div>
                     <div className="commentary-zone">
