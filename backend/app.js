@@ -34,15 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req,res,next){
-  res.set("Acess-Control-Allow-Origin","http://192.168.1.108:3000");
-  res.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.set('Access-Control-Allow-Headers', 'Content-Type');
-  console.log('------req.query-------');
-  console.log(req.query);
-  console.log('-------------');
-  next();
-});
+
 
 app.use('/login', login); // модуль ()верификация + выдача токена) или регистрация
 // app.use(function(req,res,next){
@@ -56,20 +48,50 @@ app.use('/login', login); // модуль ()верификация + выдач�
 // и записывает пользователя в req.user, если токен не правильный - ошибка 401
 app.use(jwt({secret:config.jwt.secret}));
 
+
 app.use(function(req,res,next){
-  res.set("Acess-Control-Allow-Origin","*");
-  console.log('------req.user-------');
-  console.log(req.user);
+  res.set("Acess-Control-Allow-Origin","http://192.168.2.59:3000");
+  res.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+  // console.log('------req.query-------');
+  // console.log(req.query);
+  // console.log('-------------');
+  next();
+});
+
+
+
+app.use(function(req,res,next){
+  //res.set("Acess-Control-Allow-Origin","*");
+  console.log('------req.headers  Before user find -------');
+  console.log(req.headers);
   console.log('-------------');
   next();
 });
 
 app.use(async function(req,res,next){
+  let trace=1;
+  if (trace) {
+    console.log('-----------------');
+    console.log("req.user=",req.user);
+    console.log('-----------------');
+  }
   User.findById(req.user.data._id,'basket',(err,data)=>{
     req.user.data['basket']=data.basket;
-    console.log(req.user);
+    if (trace) {
+      console.log("User=");
+      console.dir(req.user);
+    }
     next();})
 });
+
+// app.use(function(req,res,next){
+//   //res.set("Acess-Control-Allow-Origin","*");
+//   console.log('------req.query after user find -------');
+//   console.log(req.query);
+//   console.log('-------------');
+//   next();
+// });
 app.use('/items', items);
 app.use('/settings', settingsRouter);
 app.use('/', indexRouter);
