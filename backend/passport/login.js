@@ -132,7 +132,7 @@ router.post('/signup', async function(req, res, next) {
         if (data) {
           if (trace) {l("w",logN,"User was registered")};
           // пользователь уже зарегистрирован
-          res.status(400).json({
+          res.status(409).json({
             err:{
                msg:{
                  "en":logN+`Dublicate user`
@@ -274,7 +274,7 @@ router.post('/', async function(req, res, next) {
   if (! correctPasword) {
     // --------- неправильній пароль ---------------
     if (trace) {l("e",logN,"Password is wrong.")};
-    res.status(449).json({
+    res.status(403).json({
       err:{
          msg:{
            "en":logN+"Password is wrong."
