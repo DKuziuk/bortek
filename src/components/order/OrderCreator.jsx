@@ -1,5 +1,6 @@
 import React from 'react';
 import { TranslatableText } from "../langChanger/index.jsx";
+import customSelect from "./customSelect.js";
 import DragAndDrop from '../dragNDrop/dnd';
 import '../dragNDrop/style.css';
 import PropTypes from 'prop-types';
@@ -21,7 +22,6 @@ export default class OrderCreator extends React.Component {
     commentaryHTML = React.createRef();
 
     handleFile = e => {
-        console.log(e);
         let fileList = this.state.files;
         if (!e.target.files[0].name) return
         fileList.push(e.target.files[0])
@@ -38,7 +38,7 @@ export default class OrderCreator extends React.Component {
     }
 
     clearZone = () => {
-        this.setState({files: []})
+        this.setState({files: []});
     }
 
     checkCorrectness = (files, amount) => {
@@ -67,6 +67,10 @@ export default class OrderCreator extends React.Component {
         }
     }
 
+    componentDidMount = () => {
+        customSelect();
+    }
+
     render() {
         return(
             <form action="" onSubmit={this.handleSubmit}>
@@ -90,33 +94,35 @@ export default class OrderCreator extends React.Component {
                     </DragAndDrop>
                     <div className="order-options">
                         <span><TranslatableText dictionary={{ua: "Матеріал", ru: "Материал", gb: "Material"}}/></span>
-                        <select ref={this.materialHTML} defaultValue="blackST">
-                            <option value="blackST">Ст3</option>
-                            <option value="08Х18Н10">304S(08Х18Н10)</option>
-                            <option value="20Х23Н18">310S(20Х23Н18)</option>
-                        </select>
+                        <div className="customed-select" style={{width: '170px'}}>
+                            <select ref={this.materialHTML} defaultValue="blackST">
+                                <option value="blackST">Ст3</option>
+                                <option value="08Х18Н10">304S(08Х18Н10)</option>
+                                <option value="20Х23Н18">310S(20Х23Н18)</option>
+                            </select>
+                        </div>
                         <span><TranslatableText dictionary={{ua: "Товщина, мм", ru: "Толщина, мм", gb: "Thickness, mm"}}/></span>
-                        <select ref={this.thicknessHTML} defaultValue="mm-08">
-                            <option value="mm-08">0,8</option>
-                            <option value="mm-15">1,5</option>
-                            <option value="mm-30">3,0</option>
-                            <option value="mm-60">6,0</option>
-                            <option value="mm-80">8,0</option>
-                        </select>
+                        <div className="customed-select" style={{width: '170px'}}>
+                            <select ref={this.thicknessHTML} defaultValue="mm-08">
+                                <option value="mm-08">0,8</option>
+                                <option value="mm-15">1,5</option>
+                                <option value="mm-30">3,0</option>
+                                <option value="mm-60">6,0</option>
+                                <option value="mm-80">8,0</option>
+                            </select>
+                        </div>
                         <div className="amount">
                             <span><TranslatableText dictionary={{ua: "Кількість, шт.", ru: "Количество, шт.", gb: "Amount, pcs."}}/></span>
                             <input ref={this.amountHTML} type="number" min={1} defaultValue={1}/>
                         </div>
                         <span><TranslatableText dictionary={{ua: "Пріорітет", ru: "Приоритет", gb: "Priority"}}/></span>
-                        <select ref={this.priorityHTML} defaultValue="lowPriority">
-                            {/* <TranslatableText dictionary={{ua: "Низький", ru: "Низкий", gb: "Low"}}>
-                                {txt => <option value="lowPriority">{txt}</option>}
-                            </TranslatableText> */}
-                            <TranslatableText dictionary={{ua: "Низький", ru: "Низкий", gb: "Low"}} tagName="option" />
-                            <option value="lowPriority">!</option>
-                            <option value="mediumPriority">! !</option>
-                            <option value="highPriority">! ! !</option>
-                        </select>
+                        <div className="customed-select" style={{width: '170px'}}>
+                            <select ref={this.priorityHTML} defaultValue="lowPriority">
+                                <option value="lowPriority">!</option>
+                                <option value="mediumPriority">! !</option>
+                                <option value="highPriority">! ! !</option>
+                            </select>
+                        </div>
                     </div>
                     <div className="commentary-zone">
                         <span><TranslatableText dictionary={{ua: "Коментар", ru: "Комментарий", gb: "Commentary"}}/></span>

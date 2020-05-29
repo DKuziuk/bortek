@@ -88,7 +88,7 @@ export default class Order extends React.Component {
                 svg: 'Макет'
             }
             orderList.push(newOrder);
-            this.dxfToSvg(newOrder.file, newOrder.id, this.saveSVG)
+            this.dxfToSvg(newOrder.file, newOrder.id, this.saveSVG);
         }
         this.setState({orders: orderList});
     }
@@ -157,10 +157,37 @@ export default class Order extends React.Component {
             //     orders
             // })
 
-            // console.log(this.state.orders);
+// ///////////////////
+
+            // var xhr = new XMLHttpRequest();
+            // const orders = this.state.orders;
+            // xhr.onreadystatechange = function() {
+            //     if (xhr.readyState === 4 && xhr.status === 200) {
+            //         alert(xhr.responseText);
+            //     }
+            // }
+            // xhr.open("POST", '/items/add', true);
+            // xhr.setRequestHeader("Authorization", this.props.token);
+            // xhr.setRequestHeader('Content-Type' , 'application/json;charset=utf-8' );
+            // // // var oData = new FormData(orders);
+            // // // console.log(`oData`);
+            // xhr.send(JSON.stringify({data: orders}));
+            // console.log(JSON.stringify({data: orders}));
+
+// ///////////////////
 
             var xhr = new XMLHttpRequest();
-            const orders = this.state.orders;
+            const { orders } = this.state;
+            let testOrder = orders[1];
+            var formData = new FormData();
+            for (const key in testOrder) {
+                formData.append(key, testOrder[key]);
+                console.log(key);
+                console.log(testOrder[key]);
+            }
+            console.log(`testOrder:`);
+            console.log(testOrder);
+            console.log(`------------------`);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     alert(xhr.responseText);
@@ -168,7 +195,14 @@ export default class Order extends React.Component {
             }
             xhr.open("POST", '/items/add', true);
             xhr.setRequestHeader("Authorization", this.props.token);
-            xhr.send(JSON.stringify(orders));
+            xhr.setRequestHeader('Content-Type' , 'application/json;charset=utf-8' );
+            console.log(`formData:`);
+            console.log(formData);
+            xhr.send(formData);
+
+
+// ///////////////////
+
             this.setState({
                 orders: [
                     {
@@ -184,9 +218,11 @@ export default class Order extends React.Component {
                 ]
             });
         }
-        this.setState({changingRow: -1});
-        this.setState({changing: false});
-        this.setState({styleOfOrderCreator: {}});
+        this.setState({
+            changingRow: -1,
+            changing: false,
+            styleOfOrderCreator: {}
+        });
     }
     onSort = sortField => {
         const cloneData = this.state.orders.concat();

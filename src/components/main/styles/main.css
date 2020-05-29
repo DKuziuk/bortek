@@ -92,23 +92,23 @@ p {
   background-size: cover;
 }
 .white-wave>h1, .white-wave>p {
-  animation:anim1 3s;
-  animation-duration:3s;
+  animation: anim1;
+  animation-duration: 3s;
   position: relative;
 }
 .white-wave>a {
-  animation:anim2 3s;
-  animation-duration:3s;
-  animation-timing-function: ease-in;
+  animation: anim2;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
   position: relative;
 }
 @keyframes anim1 {
-  from {top:300px;}
-  to {top:0;}
+  from {top: 300px; opacity: 0;}
+  to {top:0 ; opacity: 1;}
 }
 @keyframes anim2 {
-  from {left:-100%;}
-  to {left:0;}
+  from {left: -100%; opacity: 0;}
+  to {left: 0; opacity: 1;}
 }
 .banner-big {
   /* background-image: url(../../images/testImg1.jfif); */

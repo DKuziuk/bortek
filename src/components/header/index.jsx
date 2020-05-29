@@ -14,7 +14,7 @@ export default class Header extends React.Component {
             <div className="headerFixed">
                 <div><a href="http://www.bortek.ua/"><b><TranslatableText dictionary={{ua: 'Бортек', ru: 'Бортек', gb: 'Bortek'}}/></b></a></div>
                 <ul className="headerList">
-                    <Link to="/mainpage"className=""><li>
+                    <Link to="/"className=""><li>
                         <TranslatableText dictionary={{ua: 'Головна сторінка', ru: 'Главная страница', gb: 'Main page'}}/>
                         <img style={{width: '16px', marginLeft: '6px'}} src={Home} alt="Home"/>
                     </li></Link>

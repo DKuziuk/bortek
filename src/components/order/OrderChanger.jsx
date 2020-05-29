@@ -1,25 +1,32 @@
 import React from 'react';
 import { TranslatableText } from "../langChanger/index.jsx";
+import customSelect from "./customSelect.js";
 import "./style.css";
 
 export default class OrderChanger extends React.Component {
     state = {
-        material: this.props.changeOrder.material,
-        thickness: this.props.changeOrder.thickness,
         amount: this.props.changeOrder.amount,
-        priority: this.props.changeOrder.priority,
         commentary: this.props.changeOrder.commentary
     }
+    materialHTML = React.createRef();
+    thicknessHTML = React.createRef();
+    priorityHTML = React.createRef();
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if (typeof nextProps.changeOrder != 'undefined') {
-            this.setState({
-                material: nextProps.changeOrder.material,
-                thickness: nextProps.changeOrder.thickness,
-                amount: nextProps.changeOrder.amount,
-                priority: nextProps.changeOrder.priority,
-                commentary: nextProps.changeOrder.commentary
-            });
+        this.setState({
+            amount: nextProps.changeOrder.amount,
+            commentary: nextProps.changeOrder.commentary
+        });
+        this.materialHTML.current.value = nextProps.changeOrder.material;
+        this.thicknessHTML.current.value = nextProps.changeOrder.thickness;
+        this.priorityHTML.current.value = nextProps.changeOrder.priority;
+        var oldMenu = document.getElementsByClassName("customed-select");
+        for (var n = 0; n < 3; n++) {
+            var oldElmnts = oldMenu[n].getElementsByTagName("div");
+            for (var i = oldElmnts.length - 1; i >= 0; i--) {
+                oldElmnts[i].remove();
+            }
         }
+        customSelect();
     }
     dropRef = React.createRef()
     handleDrag = (e) => {
@@ -47,15 +54,20 @@ export default class OrderChanger extends React.Component {
     handleSave = event => {
         event.preventDefault();
         const { id, file } = this.props.changeOrder;
-        const material = this.state.material;
-        const thickness = this.state.thickness;
+        const material = this.materialHTML.current.value;
+        const thickness = this.thicknessHTML.current.value;
         const amount = this.state.amount;
-        const priority = this.state.priority;
+        const priority = this.priorityHTML.current.value;
         const commentary = this.state.commentary;
         this.props.saveChangedOrder(id, file, material, thickness, amount, priority, commentary);
     }
+
+    componentDidMount = () => {
+        customSelect();
+    }
+
     render() {
-        const { id, file, svg } = this.props.changeOrder;
+        const { id, file, svg, material, thickness, priority } = this.props.changeOrder;
         const { cancelChangedOrder } = this.props;
 
         return(
@@ -67,25 +79,23 @@ export default class OrderChanger extends React.Component {
                     </div>
                     <div className="order-options">
                         <span><TranslatableText dictionary={{ua: "Матеріал", ru: "Материал", gb: "Material"}}/></span>
-                        <select
-                        onChange={e => this.setState({ material : e.target.value })}
-                        value={this.state.material}
-                        >
-                            <option value="blackST">Ст3</option>
-                            <option value="08Х18Н10">304S(08Х18Н10)</option>
-                            <option value="20Х23Н18">310S(20Х23Н18)</option>
-                        </select>
+                        <div className="customed-select" style={{width: '170px'}}>
+                            <select ref={this.materialHTML} defaultValue={material}>
+                                <option value="blackST">Ст3</option>
+                                <option value="08Х18Н10">304S(08Х18Н10)</option>
+                                <option value="20Х23Н18">310S(20Х23Н18)</option>
+                            </select>
+                        </div>
                         <span><TranslatableText dictionary={{ua: "Товщина, мм", ru: "Толщина, мм", gb: "Thickness, mm"}}/></span>
-                        <select
-                        onChange={e => this.setState({ thickness : e.target.value })}
-                        value={this.state.thickness}
-                        >
-                            <option value="mm-08">0,8</option>
-                            <option value="mm-15">1,5</option>
-                            <option value="mm-30">3,0</option>
-                            <option value="mm-60">6,0</option>
-                            <option value="mm-80">8,0</option>
-                        </select>
+                        <div className="customed-select" style={{width: '170px'}}>
+                            <select ref={this.thicknessHTML} defaultValue={thickness}>
+                                <option value="mm-08">0,8</option>
+                                <option value="mm-15">1,5</option>
+                                <option value="mm-30">3,0</option>
+                                <option value="mm-60">6,0</option>
+                                <option value="mm-80">8,0</option>
+                            </select>
+                        </div>
                         <div className="amount">
                             <span><TranslatableText dictionary={{ua: "Кількість, шт.", ru: "Количество, шт.", gb: "Amount, pcs."}}/></span>
                             <input
@@ -96,14 +106,13 @@ export default class OrderChanger extends React.Component {
                             />
                         </div>
                         <span><TranslatableText dictionary={{ua: "Пріорітет", ru: "Приоритет", gb: "Priority"}}/></span>
-                        <select
-                        onChange={e => this.setState({ priority : e.target.value })}
-                        value={this.state.priority}
-                        >
-                            <option value="lowPriority">Низкий</option>
-                            <option value="mediumPriority">Средний</option>
-                            <option value="highPriority">Высокий</option>
-                        </select>
+                        <div className="customed-select" style={{width: '170px'}}>
+                            <select ref={this.priorityHTML} defaultValue={priority}>
+                                <option value="lowPriority">!</option>
+                                <option value="mediumPriority">! !</option>
+                                <option value="highPriority">! ! !</option>
+                            </select>
+                        </div>
                     </div>
                     <div className="commentary-zone">
                         <span><TranslatableText dictionary={{ua: "Коментар", ru: "Комментарий", gb: "Commentary"}}/></span>

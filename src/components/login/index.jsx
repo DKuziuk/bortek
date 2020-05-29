@@ -72,7 +72,7 @@ export default class LoginForm extends React.Component {
         const { isLogginActive, errors } = this.state;
         const current = isLogginActive ? <TranslatableText dictionary={{ua: "Реєстрація", ru: "Регистрация", gb: "Register"}}/> : <TranslatableText dictionary={{ua: "Увійти", ru: "Войти", gb: "Login"}}/>;
         
-        const { from } = this.props.location.state || { from: { pathname: '/mainpage' } }
+        const { from } = this.props.location.state || { from: { pathname: '/' } }
         const { redirectToReferrer } = this.state
 
         if (redirectToReferrer === true) {

@@ -1,9 +1,13 @@
 import { TranslatableText } from "../langChanger/index.jsx";
 import React from 'react';
 import loginImg from "../images/login.svg";
+import LoaderIcon from "../images/LoaderIcon.svg";
 // import ReCaptcha from "../reCaptcha/ReCaptcha";
 
 export default class Register extends React.Component {
+    state = {
+        registeringState: false
+    }
     email = React.createRef();
     password = React.createRef();
     paswordConfirme = React.createRef();
@@ -21,12 +25,14 @@ export default class Register extends React.Component {
             const pwd = this.password.current.value;
             var params = 'email=' + encodeURIComponent(email) + '&pwd=' + encodeURIComponent(pwd);
             xhr.onreadystatechange = () => {
+                this.setState({registeringState: true});
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         alert('Дякую. Ми відправили Вам на пошту повідомлення з посиланням для підтвердження реєстрації.')
                     } else {
                         this.props.createNotification(xhr.status);
                     }
+                    this.setState({registeringState: false});
                 }
             }
             xhr.open("POST", '/login/signup/?' + params, true);
@@ -48,7 +54,7 @@ export default class Register extends React.Component {
                     <div className="form">
                         <div className="form-group">
                             <label htmlFor="email"><TranslatableText dictionary={{ua: "Пошта", ru: "Почта", gb: "Email"}}/></label>
-                            <input ref={this.email} type="text" name="email" placeholder=""/>
+                            <input ref={this.email} type="email" name="email" placeholder=""/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="pasword"><TranslatableText dictionary={{ua: "Пароль", ru: "Пароль", gb: "Password"}}/></label>
@@ -61,9 +67,16 @@ export default class Register extends React.Component {
                     </div>
                 </div>
                 <div className="footer">
-                    <button type="button" className="btn" onClick={this.registerFunc}>
+                    {/* <button type="button" className="btn" onClick={this.registerFunc}>
                         <TranslatableText dictionary={{ua: "Реєстрація", ru: "Регистрация", gb: "Register"}}/>
-                    </button>
+                    </button> */}
+                    {this.state.registeringState && <button disabled type="button" className="btn-disabled">
+                        <TranslatableText dictionary={{ua: "Реєстрація", ru: "Регистрация", gb: "Register"}}/>
+                    </button>}
+                    {this.state.registeringState && <div className="LoaderIcon" dangerouslySetInnerHTML={{ __html: `<img src=${LoaderIcon} />` }}/>}
+                    {!this.state.registeringState && <button type="button" className="btn" onClick={this.registerFunc}>
+                        <TranslatableText dictionary={{ua: "Реєстрація", ru: "Регистрация", gb: "Register"}}/>
+                    </button>}
                 </div>
             </div>
         )

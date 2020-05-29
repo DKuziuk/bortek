@@ -46,7 +46,7 @@
     padding: 0px 10px;
     font-size: 16px;
     font-family: "Open Sans", sans-serif;
-    background-color: #f3f3f3;
+    background-color: #dadada;
     border: 0;
     border-radius: 4px;
     margin-bottom: 15px;
@@ -56,9 +56,14 @@
     outline: none;
     box-shadow: 0px 0px 12px 0.8px #0e81ce96;
 }
-/* .base-container .footer {
-    margin-top: 3em;
-} */
+.base-container .footer {
+    /* margin-top: 3em; */
+    height: 41.2px;
+    display: flex;
+    /* flex-direction: column; */
+    /* justify-content: center; */
+    align-items: center;
+}
 
 .notification {
     z-index: 999;
@@ -102,9 +107,13 @@
 }
 
 .LoaderIcon {
-    animation-name: loader;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
+    width: 32px;
+    position: absolute;
+    left: 300px;
+    animation: loader 1s steps(8) infinite;
+}
+.LoaderIcon img {
+    transform: scaleX(-1);
 }
 @keyframes loader {
     0% {

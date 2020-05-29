@@ -46,7 +46,7 @@ export default class App extends React.Component {
             <HashRouter>
                 <LanguageProvider className="all">
                     <Header isAuthorized={this.state.isAuthorized} logOut={this.logOut} userEmail={this.state.userEmail} />
-                    <Route path="/mainpage" component={Main} />
+                    <Route exact path="/" component={Main} />
                     <Route path="/loginform" render={(props) => <LoginForm {...props} logIn={this.logIn} />} />
                     <PrivateRoute path="/order" component={Order} />
                     <Route path="/pricer" component={Pricer} />
