@@ -1,8 +1,13 @@
 Запуск:
+
+1. Запускаем базу данных
+mongod  --dbpath "F:\Dropbox\Node_Proj\mongoDB\base" --auth
+
+2. 
 DEBUG=express:* supervisor -n error ./bin/www            
-mongod  --dbpath "F:\Dropbox\Node_Proj\mongoDB\base" --auth     
+     
 
-
+настройки для отправки писем пользователям
 Email: 0499571216@ukr.net
 pwd: 6Xu0N679hWF8lnON 
 

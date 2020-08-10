@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const items = require ('./routes/items.js');
+const newOrder = require('./routes/newOrder.js'); // newOrder receive
 var indexRouter = require('./routes/index');
 //var usersRouter = require('./routes/users');
 const settingsRouter = require('./routes/settings');
@@ -77,11 +78,11 @@ app.use(async function(req,res,next){
     console.log('-----------------');
   }
   User.findById(req.user.data._id,'basket',(err,data)=>{
-    req.user.data['basket']=data.basket;
-    if (trace) {
-      console.log("User=");
-      console.dir(req.user);
-    }
+    // req.user.data['basket']=data.basket;
+    // if (trace) {
+    //   console.log("User=");
+    //   console.dir(req.user);
+    // }
     next();})
 });
 
@@ -92,6 +93,7 @@ app.use(async function(req,res,next){
 //   console.log('-------------');
 //   next();
 // });
+app.use('/newOrder', newOrder); // модуль для работы с заказами
 app.use('/items', items);
 app.use('/settings', settingsRouter);
 app.use('/', indexRouter);

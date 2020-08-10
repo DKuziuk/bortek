@@ -58,4 +58,10 @@ config['materials']=[
   }
 ]
 
+// --- настройки для модуля приема заказов newOrder -------------
+config["newOrder"]={
+  path:"/tmp/newOrders",
+  maxFiles:50 // максимальное кол-во принимаемых файлов
+}
+
 module.exports=config;
